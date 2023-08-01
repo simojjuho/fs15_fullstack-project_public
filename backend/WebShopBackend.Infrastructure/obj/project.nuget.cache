@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "AztwfVpNPZfO4O0yAGfsA5b7n8A5/Ed2K/hJ56JoPRnReTgP5BTROhVbbJQBWyBTblrzIIM1MoXwnNBnJ2TNuw==",
+  "success": true,
+  "projectFilePath": "/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Infrastructure/WebShopBackend.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "/home/juho/.nuget/packages/microsoft.aspnetcore.openapi/7.0.9/microsoft.aspnetcore.openapi.7.0.9.nupkg.sha512",
+    "/home/juho/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "/home/juho/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
+    "/home/juho/.nuget/packages/swashbuckle.aspnetcore/6.5.0/swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "/home/juho/.nuget/packages/swashbuckle.aspnetcore.swagger/6.5.0/swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "/home/juho/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.5.0/swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "/home/juho/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.5.0/swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
