@@ -649,6 +649,16 @@
         "build": {
           "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
+      },
+      "WebShopBackend.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/WebShopBackend.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebShopBackend.Core.dll": {}
+        }
       }
     }
   },
@@ -1832,6 +1842,11 @@
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "WebShopBackend.Core/1.0.0": {
+      "type": "project",
+      "path": "../WebShopBackend.Core/WebShopBackend.Core.csproj",
+      "msbuildProject": "../WebShopBackend.Core/WebShopBackend.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -1845,7 +1860,8 @@
       "Microsoft.EntityFrameworkCore >= 7.0.9",
       "Microsoft.EntityFrameworkCore.Design >= 7.0.9",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 7.0.4",
-      "Swashbuckle.AspNetCore >= 6.5.0"
+      "Swashbuckle.AspNetCore >= 6.5.0",
+      "WebShopBackend.Core >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -1872,7 +1888,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/WebShopBackend.Core.csproj": {
+              "projectPath": "/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/WebShopBackend.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

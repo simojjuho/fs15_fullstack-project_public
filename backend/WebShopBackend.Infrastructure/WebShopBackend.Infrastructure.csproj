@@ -23,7 +23,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="src\" />
+      <Folder Include="src\Abstracions\" />
+      <Folder Include="src\Repositories\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WebShopBackend.Core\WebShopBackend.Core.csproj" />
     </ItemGroup>
 
 </Project>

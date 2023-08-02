@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using WebShopBackend.Core.Abstractions;
 
 namespace WebShopBackend.Core.Entities;
 
 public class Product : IProduct
 {
+    [Key]
     public Guid Id { get; set; }
     public string Title { get; set; }
     public decimal Price { get; set; }

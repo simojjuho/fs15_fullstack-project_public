@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "FYKwC4tFN8JDK8sAhb2uhFK4Ak24vprV1xDfoF/aWgxffZyKBa4z4oyBy4TLzuWwuYf9fU3Zy4+BNexVoqwvvw==",
+  "dgSpecHash": "pP32lok80+OGLjbVSG04ar1CLAXglC5TXf0rjpUjQq5I4tWAAxhB7epg7tKGGHuNFEGNBtseVjCvJPa4JKSlOg==",
   "success": true,
   "projectFilePath": "/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Infrastructure/WebShopBackend.Infrastructure.csproj",
   "expectedPackageFiles": [

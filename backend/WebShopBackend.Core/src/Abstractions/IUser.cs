@@ -8,4 +8,5 @@ public interface IUser : IBaseEntity
     string LastName { get; set; }
     string AvatarId { get; set; }
     UserRoles UserRole { get; set; }
+    // TODO: User need passwordHash!
 }

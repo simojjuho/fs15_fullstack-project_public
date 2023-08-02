@@ -49,3 +49,5 @@
 /home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Infrastructure/obj/Debug/net7.0/WebShopBackend.Infrastructure.pdb
 /home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Infrastructure/obj/Debug/net7.0/WebShopBackend.Infrastructure.genruntimeconfig.cache
 /home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Infrastructure/obj/Debug/net7.0/ref/WebShopBackend.Infrastructure.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Infrastructure/bin/Debug/net7.0/WebShopBackend.Core.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Infrastructure/bin/Debug/net7.0/WebShopBackend.Core.pdb

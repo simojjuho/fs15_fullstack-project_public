@@ -1,0 +1,12 @@
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/bin/Debug/net7.0/WebShopBackend.Core.deps.json
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/bin/Debug/net7.0/WebShopBackend.Core.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/bin/Debug/net7.0/WebShopBackend.Core.pdb
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/WebShopBackend.Core.csproj.AssemblyReference.cache
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/WebShopBackend.Core.GeneratedMSBuildEditorConfig.editorconfig
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/WebShopBackend.Core.AssemblyInfoInputs.cache
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/WebShopBackend.Core.AssemblyInfo.cs
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/WebShopBackend.Core.csproj.CoreCompileInputs.cache
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/WebShopBackend.Core.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/refint/WebShopBackend.Core.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/WebShopBackend.Core.pdb
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/ref/WebShopBackend.Core.dll
