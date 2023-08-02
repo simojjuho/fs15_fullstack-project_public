@@ -4,6 +4,7 @@
 1. Getting a request to the orders API endpoint with a list of product ids and amounts
     - Also a user id, in the beginning only users logged in may place an order.
     - Orders must have an address_id (FIX THE ERD!)
+    - User must be authenticated
 2. OrderController
 3. -> OrderService
    - Turn Order into OrdersProducts and an Order.
