@@ -10,7 +10,7 @@
    - user id is created
 3. UserService.CreateUser calls UserRepository.CreateUser
    - Adds the user to _users and saves changes.
-4. When user is created, the user can log in using the credentials. The process informs user with a status code of 201 if succesful.
+4. When user is created, the user can log in using the credentials. The process informs user with a status code of 201 if successful.
 
 ## Updating a user (EXTRA)
 
@@ -22,7 +22,7 @@
    - Turns the password into binary form
 4. UserService.UpdateUser calls UserRepository.UpdateUser
    - Update the user in _users and saves changes.
-5. The process informs user with a status code of 200 and the updated user if succesful.
+5. The process informs user with a status code of 200 and the updated UserDto if successful.
 
 ## Remove a user (EXTRA)
 
@@ -35,5 +35,5 @@
 
 1. Get one user by id
 2. 3UserController -> UserService -> UserRepository -> GetUserById
-3. Response with status code 200 with the entity if successful
+3. Response with status code 200 with the updated UserDto if successful
 
