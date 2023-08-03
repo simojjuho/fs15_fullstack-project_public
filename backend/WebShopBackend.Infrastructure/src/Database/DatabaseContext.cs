@@ -14,5 +14,8 @@ public class DatabaseContext : DbContext
         _configuration = configuration;
     }
 
-
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseNpgsql(_configuration.GetConnectionString());
+    }
 }

@@ -1,6 +1,6 @@
 using WebShopBackend.Core.Enums;
 
-namespace WebShopBackend.Core.Abstractions;
+namespace WebShopBackend.Core.Abstractions.CoreEntities;
 
 public interface IUser : IBaseEntity
 {

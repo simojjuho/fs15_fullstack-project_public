@@ -1,4 +1,4 @@
-namespace WebShopBackend.Core.Abstractions;
+namespace WebShopBackend.Core.Abstractions.CoreEntities;
 
 public interface IProduct : IBaseEntity
 {

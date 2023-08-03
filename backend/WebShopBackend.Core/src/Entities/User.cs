@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using WebShopBackend.Core.Abstractions;
+using WebShopBackend.Core.Abstractions.CoreEntities;
 using WebShopBackend.Core.Enums;
 
 namespace WebShopBackend.Core.Entities;

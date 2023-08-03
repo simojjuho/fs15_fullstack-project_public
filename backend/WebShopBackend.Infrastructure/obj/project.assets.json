@@ -1851,7 +1851,6 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "AutoMapper >= 12.0.1",
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 12.0.1",
       "EFCore.NamingConventions >= 7.0.2",
       "JWT >= 10.0.3",
@@ -1905,10 +1904,6 @@
       "net7.0": {
         "targetAlias": "net7.0",
         "dependencies": {
-          "AutoMapper": {
-            "target": "Package",
-            "version": "[12.0.1, )"
-          },
           "AutoMapper.Extensions.Microsoft.DependencyInjection": {
             "target": "Package",
             "version": "[12.0.1, )"

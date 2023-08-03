@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "kYaJuSPyZ1IODMC/WeSLX4PjcStcB/GRW57RBr662LYtkwtEYtIzjdflaGe95DXy5EuwCRbA3+YffoDW21rXgw==",
+  "dgSpecHash": "FM2mEAlR3E3E0A7lJbv9f21seUiDWkUioL6ZbUd2M5PZC5PMK/Vm1um75kviJ0zzszTjUtK9Ad8sVOundVDIJQ==",
   "success": true,
   "projectFilePath": "/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Business/WebShopBackend.Business.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/juho/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
+    "/home/juho/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512"
+  ],
   "logs": []
 }
