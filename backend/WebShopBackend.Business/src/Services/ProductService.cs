@@ -1,24 +1,42 @@
+using AutoMapper;
 using WebShopBackend.Business.Abstractions;
 using WebShopBackend.Business.DTOs;
+using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
 
 namespace WebShopBackend.Business.Services;
 
 public class ProductService : IProductService
 {
+    private readonly IProductRepository _repository;
+    private readonly IMapper _mapper;
+
+    public ProductService(IProductRepository repository, IMapper mapper)
+    {
+        _repository = repository;
+        _mapper = mapper;
+    }
     public ProductDto GetOneById(Guid id)
     {
-        throw new NotImplementedException();
+        return _mapper.Map<ProductDto>(_repository.GetOneById(id));
+    }
+    public ProductDto Create(ProductDto item)
+    {
+        var newProduct = _mapper.Map<Product>(item);
+        newProduct.CreatedAt = DateTime.Now;
+        var madeProduct = _repository.Create(newProduct);
+        return _mapper.Map<ProductDto>(madeProduct);
     }
 
-    public ProductDto Create(Product item)
+    public ProductDto Update(ProductDto itemForUpdate)
     {
-        throw new NotImplementedException();
-    }
-
-    public ProductDto Update(Product itemForUpdate)
-    {
-        throw new NotImplementedException();
+        var productUpdate = _mapper.Map<Product>(itemForUpdate);
+        var updateProps = productUpdate.GetType().GetProperties();
+        var withOldData = _repository.GetOneById(itemForUpdate.Id);
+        var oldProps = withOldData.GetType().GetProperties();
+        foreach (var item in updateProps)
+        {
+        }
     }
 
     public bool Remove(Guid id)

@@ -13,6 +13,6 @@ public class Product : IProduct
     public decimal Price { get; set; }
     public int Inventory { get; set; }
     public string Desctiption { get; set; }
-    public DateTime CreatedAt { get; }
+    public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 }
