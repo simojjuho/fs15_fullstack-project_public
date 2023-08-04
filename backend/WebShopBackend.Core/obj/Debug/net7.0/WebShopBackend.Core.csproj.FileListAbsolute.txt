@@ -10,3 +10,8 @@
 /home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/refint/WebShopBackend.Core.dll
 /home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/WebShopBackend.Core.pdb
 /home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/ref/WebShopBackend.Core.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/bin/Debug/net7.0/AutoMapper.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/bin/Debug/net7.0/AutoMapper.xml
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Abstractions.xml
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/obj/Debug/net7.0/WebShopBackend.Core.csproj.CopyComplete

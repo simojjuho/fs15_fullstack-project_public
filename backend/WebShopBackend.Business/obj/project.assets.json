@@ -26,6 +26,16 @@
         "runtime": {
           "lib/netcoreapp2.0/_._": {}
         }
+      },
+      "WebShopBackend.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/WebShopBackend.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebShopBackend.Core.dll": {}
+        }
       }
     }
   },
@@ -113,11 +123,17 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "WebShopBackend.Core/1.0.0": {
+      "type": "project",
+      "path": "../WebShopBackend.Core/WebShopBackend.Core.csproj",
+      "msbuildProject": "../WebShopBackend.Core/WebShopBackend.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "AutoMapper >= 12.0.1"
+      "AutoMapper >= 12.0.1",
+      "WebShopBackend.Core >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -144,7 +160,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/WebShopBackend.Core.csproj": {
+              "projectPath": "/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Core/WebShopBackend.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
