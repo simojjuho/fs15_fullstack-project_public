@@ -1,8 +1,10 @@
 using AutoMapper;
 using WebShopBackend.Business.Abstractions;
 using WebShopBackend.Business.DTOs;
+using WebShopBackend.Business.Helpers;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
+using WebShopBackend.Core.Other;
 
 namespace WebShopBackend.Business.Services;
 
@@ -34,9 +36,8 @@ public class ProductService : IProductService
         var updateProps = productUpdate.GetType().GetProperties();
         var withOldData = _repository.GetOneById(itemForUpdate.Id);
         var oldProps = withOldData.GetType().GetProperties();
-        foreach (var item in updateProps)
-        {
-        }
+        EnttiyIterator<Product>.CheckNullValues(withOldData, productUpdate);
+        return _mapper.Map<ProductDto>(_repository.Update(productUpdate, itemForUpdate.Id));
     }
 
     public bool Remove(Guid id)

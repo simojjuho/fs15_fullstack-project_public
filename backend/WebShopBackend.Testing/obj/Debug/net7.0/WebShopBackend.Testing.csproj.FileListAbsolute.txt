@@ -96,3 +96,11 @@
 /home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/obj/Debug/net7.0/WebShopBackend.Testing.pdb
 /home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/obj/Debug/net7.0/WebShopBackend.Testing.genruntimeconfig.cache
 /home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/obj/Debug/net7.0/ref/WebShopBackend.Testing.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/bin/Debug/net7.0/CoverletSourceRootsMapping
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/bin/Debug/net7.0/AutoMapper.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/bin/Debug/net7.0/WebShopBackend.Business.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/bin/Debug/net7.0/WebShopBackend.Core.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/bin/Debug/net7.0/WebShopBackend.Business.pdb
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/bin/Debug/net7.0/WebShopBackend.Core.pdb
+/home/juho/Koodaus/fs15_fullstack-project/backend/WebShopBackend.Testing/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Abstractions.xml

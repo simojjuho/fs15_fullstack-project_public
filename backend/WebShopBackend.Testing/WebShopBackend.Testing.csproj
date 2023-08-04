@@ -25,4 +25,11 @@
       <Compile Include="obj\src\BusinessTests\Helpers\EntityIteratorTest.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\WebShopBackend.Business\WebShopBackend.Business.csproj" />
+      <ProjectReference Include="..\WebShopBackend.Core\WebShopBackend.Core.csproj" />
+    </ItemGroup>
+
+
+
 </Project>
