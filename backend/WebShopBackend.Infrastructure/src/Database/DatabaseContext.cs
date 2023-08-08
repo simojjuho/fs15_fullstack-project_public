@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using WebShopBackend.Core.Entities;
 
 namespace WebShopBackend.Infrastructure.Database;
@@ -8,14 +9,22 @@ public class DatabaseContext : DbContext
     private readonly IConfiguration _configuration;
     public DbSet<User> Users { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<Review> Reviews { get; set; }
 
-    public DatabaseContext(IConfiguration configuration)
+    public DatabaseContext(DbContextOptions options, IConfiguration configuration) : base(options)
     {
         _configuration = configuration;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        //TODO: This must be finished));
+        var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("DefaultConnection"));
+        optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
     }
 }

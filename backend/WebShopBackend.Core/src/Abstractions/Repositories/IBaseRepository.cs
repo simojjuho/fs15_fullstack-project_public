@@ -1,9 +1,12 @@
+using WebShopBackend.Core.Abstractions.CoreEntities;
+
 namespace WebShopBackend.Core.Abstractions.Repositories;
 
 public interface IBaseRepository<T>
 {
-    T GetOneById(Guid id);
+    List<T> GetAll(QueryOptions queryOptions);
+    T GetOne(T item);
     T Create(T item);
     T Update(T itemForUpdate, Guid id);
-    bool Remove(Guid id);
+    bool Remove(T item);
 }
