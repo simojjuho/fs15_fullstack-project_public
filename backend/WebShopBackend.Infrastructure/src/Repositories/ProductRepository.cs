@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
 
@@ -5,6 +6,8 @@ namespace WebShopBackend.Infrastructure.Repositories;
 
 public class ProductRepository : IProductRepository
 {
+    private DbContext _dbContext;
+    private 
     public Product GetOneById(Guid id)
     {
         throw new NotImplementedException();

@@ -4,7 +4,6 @@ using WebShopBackend.Business.DTOs;
 using WebShopBackend.Business.Helpers;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
-using WebShopBackend.Core.Other;
 
 namespace WebShopBackend.Business.Services;
 
@@ -42,11 +41,11 @@ public class ProductService : IProductService
 
     public bool Remove(Guid id)
     {
-        throw new NotImplementedException();
+        return _repository.Remove(id);
     }
 
     public List<ProductDto> GetAll(int page, string filter, string filterBy, string orderBy, bool orderDesc, ProductCategory productCategory)
     {
-        throw new NotImplementedException();
+        return _mapper.Map<List<ProductDto>>(_repository.GetAll(page, filter, filterBy, orderBy, orderDesc, productCategory));
     }
 }

@@ -2,15 +2,17 @@ namespace WebShopBackend.Business.Helpers;
 
 public static class EnttiyIterator<T>
 {
-    public static void CheckNullValues(T oldVals, T newVals)
+    public static void CheckNullValues(T product, T update)
     {
-        var oldProps = oldVals!.GetType().GetProperties();
-        var newProps = newVals!.GetType().GetProperties();
+        Console.WriteLine("Hiiohoi!");
+        var newProps = update.GetType().GetProperties();
         foreach (var property in newProps)
         {
-            if (newProps.GetType().GetProperty(property.Name) is not null) continue;
             if (!property.CanWrite) continue;
-            property.SetValue(newVals, oldProps.GetType().GetProperty(property.Name)!.GetValue(oldProps));
+            if (update.GetType().GetProperty(property.Name)!.GetValue(update) is null)
+            {
+                property.SetValue(update, product!.GetType().GetProperty(property.Name)!.GetValue(product));
+            }
         }
     }
 }

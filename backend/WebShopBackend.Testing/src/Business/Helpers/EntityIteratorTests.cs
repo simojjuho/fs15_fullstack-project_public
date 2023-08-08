@@ -13,6 +13,8 @@ public class EntityIteratorTests
         Product newProd = TestHelper.CreateNewProduct("shirt", 0.05M, null);
         EnttiyIterator<Product>.CheckNullValues(oldProd, newProd);
         
-        Assert.Equivalent(oldProd, newProd);
+        Assert.Equal(oldProd.Desctiption, newProd.Desctiption);
+        Assert.Equal("shirt", newProd.Title);
+        Assert.Equal(0.05M, newProd.Price);
     }
 }
