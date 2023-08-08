@@ -9,7 +9,7 @@ public class Order : IOrder
 {
     [Key]
     public Guid Id { get; set; }
-    public DateTime CreatedAt { get; }
+    public DateTime CreatedAt { get;  set; }
     public DateTime? UpdatedAt { get; set; }
     public Guid UserId { get; set; }
     public IUser User { get; set; }

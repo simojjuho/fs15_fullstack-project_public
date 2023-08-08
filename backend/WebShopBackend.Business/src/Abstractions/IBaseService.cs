@@ -1,9 +1,12 @@
+using WebShopBackend.Core.Abstractions.CoreEntities;
+
 namespace WebShopBackend.Business.Abstractions;
 
-public interface IBaseService<T, TDto>
+public interface IBaseService<TDto>
 {
-    TDto GetOneById(Guid id);
+    List<TDto> GetAll(QueryOptions queryOptions);
+    TDto GetOne(TDto item);
     TDto Create(TDto item);
     TDto Update(TDto itemForUpdate);
-    bool Remove(Guid id);
+    bool Remove(TDto item);
 }

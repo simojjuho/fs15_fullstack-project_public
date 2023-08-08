@@ -3,7 +3,7 @@ using WebShopBackend.Core.Entities;
 
 namespace WebShopBackend.Business.Abstractions;
 
-public interface IReviewService : IBaseService<Review, ReviewDto>
+public interface IReviewService : IBaseService<ReviewDto>
 {
     
 }
