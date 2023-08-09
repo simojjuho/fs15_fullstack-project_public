@@ -12,8 +12,8 @@ public class Order : IOrder
     public DateTime CreatedAt { get;  set; }
     public DateTime? UpdatedAt { get; set; }
     public Guid UserId { get; set; }
-    public IUser User { get; set; }
+    public User User { get; set; }
     public Guid AddressId { get; set; }
-    public IAddress Address { get; set; }
+    public Address Address { get; set; }
     public OrderStatus OrderStatus { get; set; }
 }

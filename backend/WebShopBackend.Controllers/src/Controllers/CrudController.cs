@@ -8,11 +8,10 @@ namespace WebShopBackend.Controllers.Controllers;
 [Route("api/v1/[controller]s)")]
 public class CrudController<T, TDto> : ControllerBase
 {
-    private readonly IBaseService<TDto> _service;
-
-    public CrudController()
+    private IBaseService<TDto> _service { get; }
+    public CrudController(IBaseService<TDto> service)
     {
-        
+        _service = service;
     }
 
     [HttpGet]
@@ -21,7 +20,7 @@ public class CrudController<T, TDto> : ControllerBase
         return Ok(_service.GetAll(queryOptions));
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public ActionResult<TDto> GetOne([FromBody] TDto itemDto)
     {
         return Ok(_service.GetOne(itemDto));

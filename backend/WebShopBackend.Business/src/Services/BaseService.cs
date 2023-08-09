@@ -47,7 +47,7 @@ public class BaseService<T, TDto> : IBaseService<TDto> where T : IBaseEntity
             return _mapper.Map<TDto>(_repository.Update(itemUpdate, (Guid)id));    
         }
 
-        throw new NullReferenceException("Could not find id");
+        throw new NullReferenceException("Could not find an instance with the id.");
     }
 
     public bool Remove(TDto item)

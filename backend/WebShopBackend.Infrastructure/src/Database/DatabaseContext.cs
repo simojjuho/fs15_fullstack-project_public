@@ -19,7 +19,7 @@ public class DatabaseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("DefaultConnection"));
+        var builder = new NpgsqlDataSourceBuilder("Server=localhost; Host=localhost; Port=5432;Database=webshop_platform;Username=ecomm_admin;Password=admin123;");
         optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
     }
 
