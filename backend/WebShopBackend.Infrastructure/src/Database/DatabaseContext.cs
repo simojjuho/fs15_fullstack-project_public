@@ -11,6 +11,8 @@ public class DatabaseContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Review> Reviews { get; set; }
+    public DbSet<OrderProduct> OrderProducts { get; set; }
+    public DbSet<ProductCategory> ProductCategory { get; set; }
 
     public DatabaseContext(DbContextOptions options, IConfiguration configuration) : base(options)
     {
@@ -19,12 +21,14 @@ public class DatabaseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var builder = new NpgsqlDataSourceBuilder("Server=localhost; Host=localhost; Port=5432;Database=webshop_platform;Username=ecomm_admin;Password=admin123;");
+        var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("DefaultConnection"));
         optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Product>()
+            .Property(p => p.Id)
+            .HasDefaultValueSql("gen_random_uuid()");
     }
 }

@@ -2,11 +2,11 @@ using WebShopBackend.Core.Abstractions.CoreEntities;
 
 namespace WebShopBackend.Business.Abstractions;
 
-public interface IBaseService<TDto>
+public interface IBaseService<TGetDto, TCreateDto, TUpdateDto>
 {
-    List<TDto> GetAll(QueryOptions queryOptions);
-    TDto GetOne(TDto item);
-    TDto Create(TDto item);
-    TDto Update(TDto itemForUpdate);
-    bool Remove(TDto item);
+    List<TGetDto> GetAll(QueryOptions queryOptions);
+    TGetDto GetOne(Guid id);
+    TGetDto Create(TCreateDto item);
+    TGetDto Update(TUpdateDto itemForUpdate);
+    bool Remove(Guid id);
 }

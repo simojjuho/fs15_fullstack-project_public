@@ -22,10 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="src\Abstracions\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\WebShopBackend.Controllers\WebShopBackend.Controllers.csproj" />
       <ProjectReference Include="..\WebShopBackend.Core\WebShopBackend.Core.csproj" />
     </ItemGroup>

@@ -4,9 +4,9 @@ using WebShopBackend.Core.Entities;
 
 namespace WebShopBackend.Controllers.Controllers;
 
-public class ProductController : CrudController<Product, ProductDto>
+public class ProductController : CrudController<Product, ProductGetDto, ProductCreateDto, ProductUpdateDto>
 {
-    public ProductController(IProductService service) : base(service)
+    public ProductController(IBaseService<ProductGetDto, ProductCreateDto, ProductUpdateDto> service) : base(service)
     {
     }
 }

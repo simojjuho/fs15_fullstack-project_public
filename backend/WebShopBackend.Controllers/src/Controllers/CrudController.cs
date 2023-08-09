@@ -6,28 +6,28 @@ namespace WebShopBackend.Controllers.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]s)")]
-public class CrudController<T, TDto> : ControllerBase
+public class CrudController<T, TGetDto, TCreateDto, TUpdateDto> : ControllerBase
 {
-    private IBaseService<TDto> _service { get; }
-    public CrudController(IBaseService<TDto> service)
+    private IBaseService<TGetDto, TCreateDto, TUpdateDto> _service { get; }
+    public CrudController(IBaseService<TGetDto, TCreateDto, TUpdateDto> service)
     {
         _service = service;
     }
 
     [HttpGet]
-    public ActionResult<List<TDto>> GetAll([FromQuery] QueryOptions queryOptions)
+    public ActionResult<List<TGetDto>> GetAll([FromQuery] QueryOptions queryOptions)
     {
         return Ok(_service.GetAll(queryOptions));
     }
 
     [HttpGet("{id}")]
-    public ActionResult<TDto> GetOne([FromBody] TDto itemDto)
+    public ActionResult<TGetDto> GetOne([FromBody] Guid id)
     {
-        return Ok(_service.GetOne(itemDto));
+        return Ok(_service.GetOne(id));
     }
 
     [HttpPost]
-    public ActionResult<TDto> Create([FromBody] TDto itemDto)
+    public ActionResult<TGetDto> Create([FromBody] TCreateDto itemDto)
     {
         return Ok(_service.Create(itemDto));
     }

@@ -31,23 +31,29 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
             .ToList();
     }
 
-    public T GetOne(T item)
+    public T GetOne(Guid id)
     {
-        return _dbSet.FirstOrDefault(item);
+        var entity = _dbSet.Find(id);
+        if (entity is null)
+        {
+            throw new KeyNotFoundException("Wrong id!");
+        }
+
+        return entity;
     }
 
     public T Create(T item)
     {
         _dbSet.Add(item);
         _dbContext.SaveChanges();
-        return GetOne(item);
+        return GetOne((Guid)item.GetType().GetProperty("Id").GetValue(item));
     }
 
     public T Update(T itemForUpdate, Guid id)
     {
         _dbSet.Update(itemForUpdate);
         _dbContext.SaveChanges();
-        return GetOne(itemForUpdate);
+        return GetOne(id);
     }
 
     public bool Remove(T item)
