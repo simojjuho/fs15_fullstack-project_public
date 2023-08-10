@@ -6,12 +6,12 @@ using WebShopBackend.Core.Abstractions.Repositories;
 
 namespace WebShopBackend.Business.Services;
 
-public class BaseService<T, TGetDto, TCreateDto, TUpdateDto> : IBaseService<TGetDto, TCreateDto, TUpdateDto> where T : IBaseEntity
+public class BaseService<T , TGetDto, TCreateDto, TUpdateDto> : IBaseService<TGetDto, TCreateDto, TUpdateDto> where T : IBaseEntity
 {
     private readonly IBaseRepository<T> _repository;
     private readonly IMapper _mapper;
 
-    public BaseService(IBaseRepository<T> repository, IMapper mapper)
+    protected BaseService(IBaseRepository<T> repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -23,7 +23,7 @@ public class BaseService<T, TGetDto, TCreateDto, TUpdateDto> : IBaseService<TGet
 
     public List<TGetDto> GetAll(QueryOptions queryOptions)
     {
-        throw new NotImplementedException();
+        return _mapper.Map<List<TGetDto>>(_repository.GetAll(queryOptions));
     }
 
     public TGetDto Create(TCreateDto item)

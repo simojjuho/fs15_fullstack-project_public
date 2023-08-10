@@ -21,7 +21,7 @@ public class CrudController<T, TGetDto, TCreateDto, TUpdateDto> : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public ActionResult<TGetDto> GetOne([FromBody] Guid id)
+    public ActionResult<TGetDto> GetOne([FromRoute] Guid id)
     {
         return Ok(_service.GetOne(id));
     }

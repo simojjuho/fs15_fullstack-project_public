@@ -1,6 +1,6 @@
 using AutoMapper.Configuration.Annotations;
 
-namespace WebShopBackend.Business.DTOs;
+namespace WebShopBackend.Business.DTOs.UserDto;
 
 public class UserDto
 {

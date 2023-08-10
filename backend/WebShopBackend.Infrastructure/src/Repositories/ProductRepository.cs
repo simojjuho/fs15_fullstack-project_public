@@ -1,28 +1,27 @@
 using Microsoft.EntityFrameworkCore;
-
 using WebShopBackend.Core.Abstractions.CoreEntities;
 using WebShopBackend.Core.Abstractions.Repositories;
+using WebShopBackend.Core.Entities;
 using WebShopBackend.Infrastructure.Database;
 
 namespace WebShopBackend.Infrastructure.Repositories;
 
-public class BaseRepository<T> : IBaseRepository<T> where T : class
+public class ProductRepository : IProductRepository
 {
-    protected readonly DatabaseContext _dbContext;
-    protected readonly DbSet<T> _dbSet;
-
-    protected BaseRepository(DatabaseContext context)
+    private readonly DatabaseContext _dbContext;
+    private readonly DbSet<Product> _dbSet;
+    
+    public ProductRepository(DatabaseContext context)
     {
         _dbContext = context;
-        _dbSet = context.Set<T>();
+        _dbSet = context.Set<Product>();
     }
-    public List<T> GetAll(QueryOptions queryOptions)
+
+    public List<Product> GetAll(QueryOptions queryOptions)
     {
         var items = _dbSet
-            .Where(e => e.)
-            
-            /*.Where(e => e.GetType().GetProperty(queryOptions.FilterBy)!.GetValue(e)!.ToString() == queryOptions.Filter)
-            .OrderBy(e => e.GetType().GetProperty(queryOptions.OrderBy));*/
+            .Where(e => e.GetType().GetProperty(queryOptions.FilterBy)!.GetValue(e)!.ToString() == queryOptions.Filter)
+            .OrderBy(e => e.GetType().GetProperty(queryOptions.OrderBy));
         if (queryOptions.OrderDesc)
         {
             return items.OrderDescending()
@@ -32,10 +31,9 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         }
         return items.Skip(queryOptions.Page * queryOptions.PerPage)
             .Take(queryOptions.PerPage)
-            .ToList();
-    }
+            .ToList();    }
 
-    public T GetOne(Guid id)
+    public Product GetOne(Guid id)
     {
         var entity = _dbSet.Find(id);
         if (entity is null)
@@ -43,27 +41,25 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
             throw new KeyNotFoundException("Wrong id!");
         }
 
-        return entity;
-    }
+        return entity;    }
 
-    public T Create(T item)
+    public Product Create(Product item)
     {
         _dbSet.Add(item);
         _dbContext.SaveChanges();
         return GetOne((Guid)item.GetType().GetProperty("Id").GetValue(item));
     }
 
-    public T Update(T itemForUpdate, Guid id)
+    public Product Update(Product itemForUpdate, Guid id)
     {
         _dbSet.Update(itemForUpdate);
         _dbContext.SaveChanges();
         return GetOne(id);
     }
 
-    public bool Remove(T item)
+    public bool Remove(Product item)
     {
         _dbSet.Remove(item);
         _dbContext.SaveChanges();
-        return true;    
-    }
+        return true;        }
 }

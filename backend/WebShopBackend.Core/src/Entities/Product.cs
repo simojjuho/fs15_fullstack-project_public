@@ -12,8 +12,8 @@ public class Product : IProduct
     [Precision(10, 2)]
     public decimal Price { get; set; }
     public int Inventory { get; set; }
-    public string Desctiption { get; set; }
-    public ICollection<OrderProduct> OrderProducts { get; } = new List<OrderProduct>();
-    public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
+    public string Description { get; set; }
+    public ICollection<OrderProduct> OrderProducts { get; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

@@ -22,6 +22,7 @@ public class DatabaseContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("DefaultConnection"));
+        optionsBuilder.AddInterceptors(new TimeStampInterceptor());
         optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
     }
 
@@ -30,5 +31,15 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<Product>()
             .Property(p => p.Id)
             .HasDefaultValueSql("gen_random_uuid()");
+
+        /*modelBuilder.Entity<Product>()
+            .Property(p => p.CreatedAt)
+            .HasDefaultValueSql("now()")
+            .ValueGeneratedOnAdd();
+        
+        modelBuilder.Entity<Product>()
+            .Property(p => p.UpdatedAt)
+            .HasDefaultValueSql("now()")
+            .ValueGeneratedOnAdd();*/
     }
 }
