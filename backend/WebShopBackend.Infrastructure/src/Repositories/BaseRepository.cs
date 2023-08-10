@@ -19,7 +19,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     public List<T> GetAll(QueryOptions queryOptions)
     {
         var items = _dbSet
-            .Where(e => e.)
+            
             
             /*.Where(e => e.GetType().GetProperty(queryOptions.FilterBy)!.GetValue(e)!.ToString() == queryOptions.Filter)
             .OrderBy(e => e.GetType().GetProperty(queryOptions.OrderBy));*/
