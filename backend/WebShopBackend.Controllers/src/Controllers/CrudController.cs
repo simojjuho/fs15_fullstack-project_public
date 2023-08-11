@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using WebShopBackend.Business.Abstractions;
 using WebShopBackend.Core.Abstractions.CoreEntities;
+using WebShopBackend.Core.Entities;
 
 namespace WebShopBackend.Controllers.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]s)")]
+[Route("api/v1/[controller]s")]
 public class CrudController<T, TGetDto, TCreateDto, TUpdateDto> : ControllerBase
 {
     private IBaseService<TGetDto, TCreateDto, TUpdateDto> _service { get; }
@@ -30,5 +31,11 @@ public class CrudController<T, TGetDto, TCreateDto, TUpdateDto> : ControllerBase
     public ActionResult<TGetDto> Create([FromBody] TCreateDto itemDto)
     {
         return Ok(_service.Create(itemDto));
+    }
+
+    [HttpPatch("{id}")]
+    public ActionResult<TGetDto> Update([FromRoute] Guid id, [FromBody] TUpdateDto itemDto)
+    {
+        return Ok(_service.Update(id, itemDto));
     }
 }

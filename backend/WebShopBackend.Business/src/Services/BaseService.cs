@@ -3,6 +3,7 @@ using WebShopBackend.Business.Abstractions;
 using WebShopBackend.Business.Helpers;
 using WebShopBackend.Core.Abstractions.CoreEntities;
 using WebShopBackend.Core.Abstractions.Repositories;
+using WebShopBackend.Core.Entities;
 
 namespace WebShopBackend.Business.Services;
 
@@ -34,20 +35,13 @@ public class BaseService<T , TGetDto, TCreateDto, TUpdateDto> : IBaseService<TGe
         return _mapper.Map<TGetDto>(madeProduct);
     }
 
-    public TGetDto Update(TUpdateDto itemForUpdate)
+    public TGetDto Update(Guid updateId, TUpdateDto itemForUpdate)
     {
         var itemUpdate = _mapper.Map<T>(itemForUpdate);
-        var updateProps = itemUpdate.GetType().GetProperties();
+        itemUpdate.Id = updateId;
         var withOldData = _repository.GetOne(itemUpdate.Id);
-        var oldProps = withOldData.GetType().GetProperties();
         EnttiyIterator<T>.CheckNullValues(withOldData, itemUpdate);
-        var id = itemUpdate.GetType().GetProperty("Id")!.GetValue(itemUpdate);
-        if (id is not null && id.GetType().IsInstanceOfType(new Guid()))
-        {
-            return _mapper.Map<TGetDto>(_repository.Update(itemUpdate, (Guid)id));    
-        }
-
-        throw new NullReferenceException("Could not find an instance with the id.");
+        return _mapper.Map<TGetDto>(_repository.Update(itemUpdate, updateId));
     }
 
     public bool Remove(Guid id)

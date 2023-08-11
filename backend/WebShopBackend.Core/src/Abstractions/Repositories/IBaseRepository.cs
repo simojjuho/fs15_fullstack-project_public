@@ -1,4 +1,5 @@
 using WebShopBackend.Core.Abstractions.CoreEntities;
+using WebShopBackend.Core.Entities;
 
 namespace WebShopBackend.Core.Abstractions.Repositories;
 

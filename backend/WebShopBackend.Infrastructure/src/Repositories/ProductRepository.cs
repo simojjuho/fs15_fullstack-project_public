@@ -20,18 +20,19 @@ public class ProductRepository : IProductRepository
     public List<Product> GetAll(QueryOptions queryOptions)
     {
         var items = _dbSet
-            .Where(e => e.GetType().GetProperty(queryOptions.FilterBy)!.GetValue(e)!.ToString() == queryOptions.Filter)
-            .OrderBy(e => e.GetType().GetProperty(queryOptions.OrderBy));
+            .Where(e => e.Title.ToLower().Contains(queryOptions.Filter.ToLower()))
+            .OrderBy(e => e.Title);
         if (queryOptions.OrderDesc)
         {
             return items.OrderDescending()
-                .Skip(queryOptions.Page * queryOptions.PerPage)
+                .Skip((queryOptions.Page - 1) * queryOptions.PerPage)
                 .Take(queryOptions.PerPage)
                 .ToList();
         }
-        return items.Skip(queryOptions.Page * queryOptions.PerPage)
+        return items.Skip((queryOptions.Page - 1) * queryOptions.PerPage)
             .Take(queryOptions.PerPage)
-            .ToList();    }
+            .ToList();    
+    }
 
     public Product GetOne(Guid id)
     {

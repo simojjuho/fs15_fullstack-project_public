@@ -1,6 +1,6 @@
 using WebShopBackend.Core.Entities;
 
-namespace WebShopBackend.Core.Abstractions;
+namespace WebShopBackend.Core.Abstractions.CoreEntities;
 
 public interface IOrderProduct
 {

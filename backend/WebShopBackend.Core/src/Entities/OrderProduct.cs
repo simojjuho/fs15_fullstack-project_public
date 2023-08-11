@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using WebShopBackend.Core.Abstractions;
+using WebShopBackend.Core.Abstractions.CoreEntities;
 
 namespace WebShopBackend.Core.Entities;
 
