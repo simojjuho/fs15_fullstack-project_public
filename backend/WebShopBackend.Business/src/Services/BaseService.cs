@@ -39,14 +39,15 @@ public class BaseService<T , TGetDto, TCreateDto, TUpdateDto> : IBaseService<TGe
     {
         var itemUpdate = _mapper.Map<T>(itemForUpdate);
         itemUpdate.Id = updateId;
-        var withOldData = _repository.GetOne(itemUpdate.Id);
-        EnttiyIterator<T>.CheckNullValues(withOldData, itemUpdate);
-        return _mapper.Map<TGetDto>(_repository.Update(itemUpdate, updateId));
+        var actualProduct = _repository.GetOne(itemUpdate.Id);
+        EnttiyIterator<T>.CheckNullValues(actualProduct, itemUpdate);
+        EnttiyIterator<T>.ReplaceProperyValues(actualProduct, itemUpdate);
+        return _mapper.Map<TGetDto>(_repository.Update(actualProduct, updateId));
     }
 
     public bool Remove(Guid id)
     {
-        var item = GetOne(id);
-        return _repository.Remove(_mapper.Map<T>(item));
+        var item = _repository.GetOne(id);
+        return _repository.Remove(item);
     }
 }

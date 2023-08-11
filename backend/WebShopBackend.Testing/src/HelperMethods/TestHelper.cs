@@ -20,7 +20,7 @@ public static class TestHelper
 
         if (desctiption is not null)
         {
-            newProduct.Desctiption = desctiption;
+            newProduct.Description = desctiption;
         }
 
         return newProduct;

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using WebShopBackend.Business.Abstractions;
-using WebShopBackend.Core.Abstractions.CoreEntities;
 using WebShopBackend.Core.Entities;
 
 namespace WebShopBackend.Controllers.Controllers;
@@ -37,5 +36,16 @@ public class CrudController<T, TGetDto, TCreateDto, TUpdateDto> : ControllerBase
     public ActionResult<TGetDto> Update([FromRoute] Guid id, [FromBody] TUpdateDto itemDto)
     {
         return Ok(_service.Update(id, itemDto));
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult<bool> Delete([FromRoute] Guid id)
+    {
+        if (_service.Remove(id))
+        {
+            return NoContent();
+        }
+
+        throw new ArgumentException($"Invalid entity id: {id.ToString()}");
     }
 }
