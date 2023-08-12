@@ -19,5 +19,6 @@ public class User: IUser
     [Ignore]
     public string AvatarId { get; set; }
     public UserRoles UserRole { get; set; } = UserRoles.Customer;
-    public byte[] Password { get; set; }
+    public string PasswordHash { get; set; }
+    public byte[] Salt { get; set; }
 }

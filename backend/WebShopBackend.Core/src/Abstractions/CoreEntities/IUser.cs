@@ -9,6 +9,6 @@ public interface IUser : IBaseEntity
     string Email { get; set; }
     string AvatarId { get; set; }
     UserRoles UserRole { get; set; }
-    byte[] Password { get; set; }
-    // TODO: User need passwordHash!
+    string PasswordHash { get; set; }
+    byte[] Salt { get; set; }
 }

@@ -6,5 +6,4 @@ namespace WebShopBackend.Business.Abstractions;
 public interface IAuthService
 {
     public string VerifyCredentials(UserCredentials credentials);
-    public string GenerateToken(User user);
 }
