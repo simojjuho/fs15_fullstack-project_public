@@ -9,4 +9,5 @@ public class UserCreateDto
     public string Email { get; set; }
     [Ignore]
     public string AvatarUrl { get; set; }
+    public string Password { get; set; }
 }

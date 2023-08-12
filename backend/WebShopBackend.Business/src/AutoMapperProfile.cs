@@ -11,7 +11,8 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<User, UserGetDto>();
-        CreateMap<UserGetDto, User>();
+        CreateMap<UserCreateDto, User>();
+        CreateMap<UserUpdateDto, User>();
         CreateMap<Product, ProductGetDto>();
         CreateMap<ProductCreateDto, Product>();
         CreateMap<Product, ProductCreateDto>();

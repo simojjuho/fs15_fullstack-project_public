@@ -9,8 +9,8 @@ namespace WebShopBackend.Business.Services;
 
 public class BaseService<T , TGetDto, TCreateDto, TUpdateDto> : IBaseService<TGetDto, TCreateDto, TUpdateDto> where T : IBaseEntity
 {
-    private readonly IBaseRepository<T> _repository;
-    private readonly IMapper _mapper;
+    protected readonly IBaseRepository<T> _repository;
+    protected readonly IMapper _mapper;
 
     protected BaseService(IBaseRepository<T> repository, IMapper mapper)
     {
@@ -27,22 +27,20 @@ public class BaseService<T , TGetDto, TCreateDto, TUpdateDto> : IBaseService<TGe
         return _mapper.Map<List<TGetDto>>(_repository.GetAll(queryOptions));
     }
 
-    public TGetDto Create(TCreateDto item)
+    public virtual TGetDto Create(TCreateDto item)
     {
         var newItem = _mapper.Map<T>(item);
-        newItem.CreatedAt = DateTime.Now;
-        var madeProduct = _repository.Create(newItem);
-        return _mapper.Map<TGetDto>(madeProduct);
+        return _mapper.Map<TGetDto>(_repository.Create(newItem));
     }
 
     public TGetDto Update(Guid updateId, TUpdateDto itemForUpdate)
     {
         var itemUpdate = _mapper.Map<T>(itemForUpdate);
         itemUpdate.Id = updateId;
-        var actualProduct = _repository.GetOne(itemUpdate.Id);
-        EnttiyIterator<T>.CheckNullValues(actualProduct, itemUpdate);
-        EnttiyIterator<T>.ReplaceProperyValues(actualProduct, itemUpdate);
-        return _mapper.Map<TGetDto>(_repository.Update(actualProduct, updateId));
+        var actualItem = _repository.GetOne(itemUpdate.Id);
+        EnttiyIterator<T>.CheckNullValues(actualItem, itemUpdate);
+        EnttiyIterator<T>.ReplaceProperyValues(actualItem, itemUpdate);
+        return _mapper.Map<TGetDto>(_repository.Update(actualItem));
     }
 
     public bool Remove(Guid id)
