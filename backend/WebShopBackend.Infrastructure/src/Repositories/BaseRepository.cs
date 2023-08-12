@@ -52,11 +52,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return GetOne((Guid)item.GetType().GetProperty("Id").GetValue(item));
     }
 
-    public virtual T Update(T itemForUpdate, Guid id)
+    public virtual T Update(T itemForUpdate)
     {
         _dbSet.Update(itemForUpdate);
         _dbContext.SaveChanges();
-        return GetOne(id);
+        return itemForUpdate;
     }
 
     public virtual bool Remove(T item)

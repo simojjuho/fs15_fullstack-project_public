@@ -7,13 +7,13 @@ using WebShopBackend.Business.DTOs.UserDto;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
 
-namespace WebShopBackend.Business.Services;
+namespace WebShopBackend.Business.Shared;
 
 public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
 
-    public AuthService(IUserRepository repository, IConfiguration configuration)
+    public AuthService(IUserRepository repository)
     {
         _userRepository = repository;
     }

@@ -27,38 +27,55 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public bool UpdatePassword(string newPassword, User user)
-    {
-        throw new NotImplementedException();
-    }
-
-    public User UpdateAdminStatus(string email)
-    {
-        throw new NotImplementedException();
-    }
-
     public List<User> GetAll(QueryOptions queryOptions)
     {
-        throw new NotImplementedException();
+        var users = _users
+            .Where(e => (e.FirstName + " " + e.LastName).Contains(queryOptions.Filter))
+            .OrderBy(e => e.LastName);
+
+        if (queryOptions.OrderDesc)
+        {
+            return users
+                .OrderDescending()
+                .Skip((queryOptions.Page - 1) * queryOptions.Page)
+                .Take(queryOptions.PerPage)
+                .ToList();
+        }
+        return users
+            .Skip((queryOptions.Page - 1) * queryOptions.Page)
+            .Take(queryOptions.PerPage)
+            .ToList();
     }
 
     public User GetOne(Guid id)
     {
-        throw new NotImplementedException();
+        var user = _users.Find(id);
+        if (user is null)
+        {
+            throw new KeyNotFoundException();
+        }
+
+        return user;
     }
 
     public User Create(User item)
     {
-        throw new NotImplementedException();
+        var entry = _users.Add(item);
+        _dbContext.SaveChanges();
+        return entry.Entity;
     }
 
-    public User Update(User itemForUpdate, Guid id)
+    public User Update(User itemForUpdate)
     {
-        throw new NotImplementedException();
+        var entry = _users.Update(itemForUpdate);
+        _dbContext.SaveChanges();
+        return entry.Entity;
     }
 
     public bool Remove(User item)
     {
-        throw new NotImplementedException();
+        _users.Remove(item);
+        _dbContext.SaveChanges();
+        return true;
     }
 }

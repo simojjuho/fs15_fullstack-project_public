@@ -1,8 +1,7 @@
-using System.Security.Cryptography;
 using System.Text;
 using HMACSHA256 = System.Security.Cryptography.HMACSHA256;
 
-namespace WebShopBackend.Business.Services;
+namespace WebShopBackend.Business.Shared;
 
 public class PasswordService
 {
