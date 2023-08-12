@@ -18,6 +18,6 @@ public class User: IUser
     public string Email { get; set; }
     [Ignore]
     public string AvatarId { get; set; }
-    public UserRoles UserRole { get; set; }
+    public UserRoles UserRole { get; set; } = UserRoles.Customer;
     public byte[] Password { get; set; }
 }

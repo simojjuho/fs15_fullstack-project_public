@@ -8,38 +8,51 @@ namespace WebShopBackend.Controllers.Controllers;
 [Route("api/v1/[controller]s")]
 public class CrudController<T, TGetDto, TCreateDto, TUpdateDto> : ControllerBase
 {
-    private IBaseService<TGetDto, TCreateDto, TUpdateDto> _service { get; }
+    protected IBaseService<TGetDto, TCreateDto, TUpdateDto> _service { get; }
     public CrudController(IBaseService<TGetDto, TCreateDto, TUpdateDto> service)
     {
         _service = service;
     }
 
     [HttpGet]
-    public ActionResult<List<TGetDto>> GetAll([FromQuery] QueryOptions queryOptions)
+    [ProducesResponseType(statusCode: 200)]
+    [ProducesResponseType(statusCode: 400)]
+    public virtual ActionResult<List<TGetDto>> GetAll([FromQuery] QueryOptions queryOptions)
     {
         return Ok(_service.GetAll(queryOptions));
     }
 
     [HttpGet("{id}")]
-    public ActionResult<TGetDto> GetOne([FromRoute] Guid id)
+    [ProducesResponseType(statusCode: 200)]
+    [ProducesResponseType(statusCode: 404)]
+    public virtual ActionResult<TGetDto> GetOne([FromRoute] Guid id)
     {
         return Ok(_service.GetOne(id));
     }
 
     [HttpPost]
-    public ActionResult<TGetDto> Create([FromBody] TCreateDto itemDto)
+    [ProducesResponseType(statusCode: 200)]
+    [ProducesResponseType(statusCode: 401)]
+    [ProducesResponseType(statusCode: 403)]
+    public virtual ActionResult<TGetDto> Create([FromBody] TCreateDto itemDto)
     {
         return Ok(_service.Create(itemDto));
     }
 
     [HttpPatch("{id}")]
-    public ActionResult<TGetDto> Update([FromRoute] Guid id, [FromBody] TUpdateDto itemDto)
+    [ProducesResponseType(statusCode: 200)]
+    [ProducesResponseType(statusCode: 401)]
+    [ProducesResponseType(statusCode: 404)]
+    public virtual ActionResult<TGetDto> Update([FromRoute] Guid id, [FromBody] TUpdateDto itemDto)
     {
         return Ok(_service.Update(id, itemDto));
     }
 
     [HttpDelete("{id}")]
-    public ActionResult<bool> Delete([FromRoute] Guid id)
+    [ProducesResponseType(statusCode: 200)]
+    [ProducesResponseType(statusCode: 401)]
+    [ProducesResponseType(statusCode: 404)]
+    public virtual ActionResult<bool> Delete([FromRoute] Guid id)
     {
         if (_service.Remove(id))
         {

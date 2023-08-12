@@ -7,7 +7,7 @@ namespace WebShopBackend.Business.Services;
 
 public class ProductService : BaseService<Product, ProductGetDto, ProductCreateDto, ProductUpdateDto>
 {
-    public ProductService(IProductRepository repository, IMapper mapper) : base(repository, mapper)
+    public ProductService(IBaseRepository<Product> repository, IMapper mapper) : base(repository, mapper)
     {
     }
 }
