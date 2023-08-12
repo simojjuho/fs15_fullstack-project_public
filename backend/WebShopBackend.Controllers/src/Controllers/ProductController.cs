@@ -17,7 +17,8 @@ public class ProductController : CrudController<Product, ProductGetDto, ProductC
     [Authorize]
     [HttpPost]
     [ProducesResponseType(statusCode: 200)]
-    [ProducesResponseType(statusCode: 403)]
+    [ProducesResponseType(statusCode: 400)]
+    [ProducesResponseType(statusCode: 401)]
     public override ActionResult<ProductGetDto> Create([FromBody] ProductCreateDto itemDto)
     {
         return Ok(base._service.Create(itemDto));
@@ -26,6 +27,7 @@ public class ProductController : CrudController<Product, ProductGetDto, ProductC
     [Authorize]
     [HttpPatch("{id}")]
     [ProducesResponseType(statusCode: 200)]
+    [ProducesResponseType(statusCode: 400)]
     [ProducesResponseType(statusCode: 401)]
     [ProducesResponseType(statusCode: 404)]
     public override ActionResult<ProductGetDto> Update([FromRoute] Guid id, [FromBody] ProductUpdateDto itemDto)

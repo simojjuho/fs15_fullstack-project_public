@@ -2,7 +2,7 @@ using AutoMapper.Configuration.Annotations;
 
 namespace WebShopBackend.Business.DTOs.UserDto;
 
-public class UserDto
+public class UserUpdateDto
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }

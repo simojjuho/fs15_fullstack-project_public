@@ -10,8 +10,8 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<User, UserDto>();
-        CreateMap<UserDto, User>();
+        CreateMap<User, UserGetDto>();
+        CreateMap<UserGetDto, User>();
         CreateMap<Product, ProductGetDto>();
         CreateMap<ProductCreateDto, Product>();
         CreateMap<Product, ProductCreateDto>();
