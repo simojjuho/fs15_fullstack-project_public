@@ -1,7 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using WebShopBackend.Core.Abstractions;
 using WebShopBackend.Core.Abstractions.CoreEntities;
 
 namespace WebShopBackend.Core.Entities;
@@ -16,4 +14,6 @@ public class OrderProduct : IOrderProduct
     public Guid OrderId { get; set; }
     public Order Order { get; set; }
     public int Amount { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }
