@@ -1,15 +1,16 @@
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using WebShopBackend.Business;
 using WebShopBackend.Business.Services;
 using WebShopBackend.Business.Abstractions;
+using WebShopBackend.Business.DTOs;
+using WebShopBackend.Business.DTOs.ProductCategoryDto;
 using WebShopBackend.Business.DTOs.ProductDto;
-using WebShopBackend.Business.DTOs.UserDto;
+using WebShopBackend.Business.Shared;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
 using WebShopBackend.Infrastructure.Database;
@@ -18,33 +19,43 @@ using WebShopBackend.Infrastructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Database:
-builder.Services.AddDbContext<DatabaseContext>();
+builder
+    .Services.AddDbContext<DatabaseContext>();
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder
+    .Services.AddControllers();
 
 // Repositories:
-builder.Services.AddScoped<IBaseRepository<Product>, ProductRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services
+    .AddScoped<IBaseRepository<Product>, ProductRepository>()
+    .AddScoped<IUserRepository, UserRepository>()
+    .AddScoped<IBaseRepository<ProductCategory>, ProductCategoryRepository>();
+
 
 // Add services:
-builder.Services.AddScoped<IBaseService<ProductGetDto, ProductCreateDto, ProductUpdateDto>, ProductService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services
+    .AddScoped<IBaseService<ProductGetDto, ProductCreateDto, ProductUpdateDto>, ProductService>()
+    .AddScoped<IUserService, UserService>()
+    .AddScoped<IAuthService, AuthService>()
+    .AddScoped<IBaseService<ProductCategoryGetDto, ProductCategoryCreateDto, ProductCategoryUpdateDto>,
+        ProductCategoryService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+builder.Services
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen(options =>
     {
-        Description = "Bearer token authentication",
-        Name = "Authentication",
-        In = ParameterLocation.Header
+        options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+        {
+            Description = "Bearer token authentication",
+            Name = "Authentication",
+            In = ParameterLocation.Header,
+        });
+        options.OperationFilter<SecurityRequirementsOperationFilter>();
     });
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
-});
 
 builder.Services.Configure<RouteOptions>(options => 
     options.LowercaseUrls = true
@@ -57,11 +68,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuer = true,
             ValidIssuer = "webshop-backend",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my-secret-key")),
+            ValidateAudience = false,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("enGVsJ8JoaWKSOA7mpheC2EJFW3akghhWr69aNPhwrgabDpTt3GsW715vJ4lz0oieZW8jTFChXnCYPAMYSiligTGKSF2pV0uxBJx21UVJYqp9IcO1Qpr6FP1vXZ3IDWP")),
             ValidateIssuerSigningKey = true,
             ValidAlgorithms = new []{SecurityAlgorithms.HmacSha256}
         };
     });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPrivilege", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("whitelist", policy => policy.RequireClaim(ClaimTypes.Email, "juho@mail.com"));
+    // options.AddPolicy("IsOwner", policy => policy.);
+});
 
 var app = builder.Build();
 

@@ -1,3 +1,5 @@
+using AutoMapper.Configuration.Annotations;
+
 namespace WebShopBackend.Business.DTOs.ProductDto;
 
 public class ProductUpdateDto
@@ -6,4 +8,6 @@ public class ProductUpdateDto
     public decimal Price { get; set; }
     public int Inventory { get; set; }
     public string Description { get; set; }
+    [Ignore]
+    public string CategpryName { get; set; }
 }

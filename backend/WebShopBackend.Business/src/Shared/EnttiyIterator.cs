@@ -1,4 +1,4 @@
-namespace WebShopBackend.Business.Helpers;
+namespace WebShopBackend.Business.Shared;
 
 public static class EnttiyIterator<T>
 {

@@ -38,7 +38,7 @@ public class AuthService : IAuthService
             new (ClaimTypes.Email, user.Email),
             new (ClaimTypes.Role, user.UserRole.ToString())
         };
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my-secret-key"));
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("enGVsJ8JoaWKSOA7mpheC2EJFW3akghhWr69aNPhwrgabDpTt3GsW715vJ4lz0oieZW8jTFChXnCYPAMYSiligTGKSF2pV0uxBJx21UVJYqp9IcO1Qpr6FP1vXZ3IDWP"));
         var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
         var tokenDescriptor = new SecurityTokenDescriptor{
             Issuer = "webshop-backend",
@@ -49,6 +49,6 @@ public class AuthService : IAuthService
         
         var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
         var token = jwtSecurityTokenHandler.CreateToken(tokenDescriptor);
-        return token.ToString();
+        return jwtSecurityTokenHandler.WriteToken(token);
     }
 }

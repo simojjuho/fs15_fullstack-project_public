@@ -4,21 +4,24 @@ using Microsoft.AspNetCore.Mvc;
 using WebShopBackend.Business.Abstractions;
 using WebShopBackend.Business.DTOs.UserDto;
 using WebShopBackend.Core.Entities;
+using WebShopBackend.Core.HelperClasses;
 
 namespace WebShopBackend.Controllers.Controllers;
 
 [ApiController]
 public class UserController : CrudController<User, UserGetDto, UserCreateDto, UserUpdateDto>
 {
+    private readonly IUserService _userService;
     public UserController(IUserService service) : base(service)
     {
+        _userService = service;
     }
 
     [Authorize]
     [HttpGet]
     public override ActionResult<List<UserGetDto>> GetAll(QueryOptions queryOptions)
     {
-        return base.GetAll(queryOptions);
+        return _userService.GetAll(queryOptions);
     }
     
     [Authorize]
@@ -27,7 +30,7 @@ public class UserController : CrudController<User, UserGetDto, UserCreateDto, Us
     [ProducesResponseType(statusCode: 404)]
     public override ActionResult<UserGetDto> GetOne([FromRoute] Guid id)
     {
-        return Ok(_service.GetOne(id));
+        return Ok(_userService.GetOne(id));
     }
 
     [Authorize]
@@ -37,7 +40,8 @@ public class UserController : CrudController<User, UserGetDto, UserCreateDto, Us
     public ActionResult<UserGetDto> GetProfile()
     {
         var id = HttpContext.User.Claims.FirstOrDefault(e => e.Type == ClaimTypes.NameIdentifier)!.Value;
-        return Ok(_service.GetOne(new Guid(id)));
+        Console.WriteLine(id);
+        return Ok(_userService.GetOne(new Guid(id)));
     }
 
     [Authorize]
@@ -48,10 +52,11 @@ public class UserController : CrudController<User, UserGetDto, UserCreateDto, Us
         {
             return Unauthorized("Unauthorized user update!");
         }
-        return Ok(_service.Update(id, itemDto));
+        return Ok(_userService.Update(id, itemDto));
     }
 
     [Authorize]
+    [HttpDelete]
     public override ActionResult<bool> Delete(Guid id)
     {
         var idFromToken = HttpContext.User.Claims.FirstOrDefault(e => e.Type == ClaimTypes.NameIdentifier)!.Value;
@@ -60,6 +65,14 @@ public class UserController : CrudController<User, UserGetDto, UserCreateDto, Us
             return Unauthorized("Unauthorized user deletion!");
         }
 
-        return Ok(true);
+        return Ok(_userService.Remove(id));
     }
+
+    [Authorize(Policy = "whitelist")]
+    [HttpGet("{id}/adminswitch")]
+    public ActionResult ChangeAdminStatus(Guid id)
+    {
+        return CreatedAtAction(nameof(ChangeAdminStatus), _userService.ChangeAdminStatus(id));
+    }
+    
 }

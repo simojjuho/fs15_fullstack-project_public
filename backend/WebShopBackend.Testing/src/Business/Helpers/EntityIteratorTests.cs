@@ -1,5 +1,5 @@
+using WebShopBackend.Business.Shared;
 using WebShopBackend.Core.Entities;
-using WebShopBackend.Business.Helpers;
 using WebShopBackend.Testing.HelperMethods;
 
 namespace WebShopBackend.Testing.Business.Helpers;

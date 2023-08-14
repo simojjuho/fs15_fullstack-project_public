@@ -23,4 +23,12 @@ public class UserService : BaseService<User, UserGetDto, UserCreateDto, UserUpda
         newUser.UserRole = UserRole.Customer;
         return _mapper.Map<UserGetDto>(_repository.Create(newUser));
     }
+
+    public bool ChangeAdminStatus(Guid id)
+    {
+        var user = _repository.GetOne(id);
+        user.UserRole = UserRole.Admin;
+        _repository.Update(user);
+        return true;
+    }
 }

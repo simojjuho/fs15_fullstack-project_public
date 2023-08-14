@@ -1,6 +1,6 @@
-namespace WebShopBackend.Business.DTOs;
+namespace WebShopBackend.Business.DTOs.ProductCategoryDto;
 
-public class ProductCategoryDto
+public class ProductCategoryGetDto
 {
     public Guid Id { get; set; }
     public string Title { get; set; }

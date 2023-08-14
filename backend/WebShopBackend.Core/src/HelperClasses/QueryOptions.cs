@@ -1,4 +1,4 @@
-namespace WebShopBackend.Core.Entities;
+namespace WebShopBackend.Core.HelperClasses;
 
 public class QueryOptions
 {

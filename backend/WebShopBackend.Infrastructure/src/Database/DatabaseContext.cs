@@ -25,6 +25,7 @@ public class DatabaseContext : DbContext
     {
         var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("DefaultConnection"));
         builder.MapEnum<UserRole>();
+        builder.MapEnum<OrderStatus>();
         optionsBuilder.AddInterceptors(new TimeStampInterceptor());
         optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
     }
@@ -32,6 +33,7 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresEnum<UserRole>();
+        modelBuilder.HasPostgresEnum<OrderStatus>();
         modelBuilder.Entity<User>()
             .Property(e => e.Avatar)
             .HasDefaultValue("https://gravatar.com/avatar/64a18a4cd914f298e737bde27cb24c29?s=400&d=mp&r=x");

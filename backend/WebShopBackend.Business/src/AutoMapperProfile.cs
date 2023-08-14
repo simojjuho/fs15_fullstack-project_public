@@ -1,5 +1,7 @@
 using AutoMapper;
 using WebShopBackend.Business.DTOs;
+using WebShopBackend.Business.DTOs.OrderDto;
+using WebShopBackend.Business.DTOs.ProductCategoryDto;
 using WebShopBackend.Business.DTOs.ProductDto;
 using WebShopBackend.Business.DTOs.UserDto;
 using WebShopBackend.Core.Entities;
@@ -15,9 +17,13 @@ public class AutoMapperProfile : Profile
         CreateMap<UserUpdateDto, User>();
         CreateMap<Product, ProductGetDto>();
         CreateMap<ProductCreateDto, Product>();
-        CreateMap<Product, ProductCreateDto>();
         CreateMap<ProductUpdateDto, Product>();
-        CreateMap<Order, OrderDto>();
-        CreateMap<OrderDto, Order>();
+        CreateMap<ProductCategory, ProductCategoryGetDto>();
+        CreateMap<ProductCategoryCreateDto, ProductCategory>();
+        CreateMap<ProductCategoryUpdateDto, ProductCategory>();
+        CreateMap<OrderProduct, OrderProductDto>();
+        CreateMap<Order, OrderGetDto>();
+        CreateMap<OrderCreateDto, Order>();
+        CreateMap<OrderUpdateDto, Order>();
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
+using WebShopBackend.Core.HelperClasses;
 using WebShopBackend.Infrastructure.Database;
 
 namespace WebShopBackend.Infrastructure.Repositories;

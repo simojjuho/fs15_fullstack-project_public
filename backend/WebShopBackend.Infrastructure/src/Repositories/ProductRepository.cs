@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WebShopBackend.Core.Abstractions.CoreEntities;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
+using WebShopBackend.Core.HelperClasses;
 using WebShopBackend.Infrastructure.Database;
 
 namespace WebShopBackend.Infrastructure.Repositories;
@@ -17,7 +18,8 @@ public class ProductRepository : BaseRepository<Product>
     {
         var items = _dbSet
             .Where(e => e.Title.ToLower().Contains(queryOptions.Filter.ToLower()))
-            .OrderBy(e => e.Title);
+            .OrderBy(e => e.Title)
+            .Include(product => product.ProductCategory);
         if (queryOptions.OrderDesc)
         {
             return items.OrderDescending()

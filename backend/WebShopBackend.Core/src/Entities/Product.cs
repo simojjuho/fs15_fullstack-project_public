@@ -13,6 +13,8 @@ public class Product : IProduct
     public decimal Price { get; set; }
     public int Inventory { get; set; }
     public string Description { get; set; }
+    public Guid CategoryId { get; set; }
+    public ProductCategory ProductCategory { get; set; }
     public ICollection<OrderProduct> OrderProducts { get; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }

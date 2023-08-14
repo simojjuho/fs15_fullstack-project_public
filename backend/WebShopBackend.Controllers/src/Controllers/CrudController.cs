@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebShopBackend.Business.Abstractions;
 using WebShopBackend.Core.Entities;
+using WebShopBackend.Core.HelperClasses;
 
 namespace WebShopBackend.Controllers.Controllers;
 
