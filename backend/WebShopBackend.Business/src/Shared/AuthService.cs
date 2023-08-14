@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 using System.Security.Claims;
+using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using WebShopBackend.Business.Abstractions;
 using WebShopBackend.Business.DTOs.UserDto;
@@ -37,7 +38,7 @@ public class AuthService : IAuthService
             new (ClaimTypes.Email, user.Email),
             new (ClaimTypes.Role, user.UserRole.ToString())
         };
-        var secretKey = new JsonWebKey("secret");
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my-secret-key"));
         var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
         var tokenDescriptor = new SecurityTokenDescriptor{
             Issuer = "webshop-backend",

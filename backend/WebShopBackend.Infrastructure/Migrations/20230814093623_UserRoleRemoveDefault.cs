@@ -1,16 +1,20 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using WebShopBackend.Core.Enums;
 
 #nullable disable
 
 namespace WebShopBackend.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class TimeStampInterceptor : Migration
+    public partial class UserRoleRemoveDefault : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:user_role", "customer,admin");
+
             migrationBuilder.CreateTable(
                 name: "product_category",
                 columns: table => new
@@ -30,7 +34,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                 name: "products",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     title = table.Column<string>(type: "text", nullable: false),
                     price = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     inventory = table.Column<int>(type: "integer", nullable: false),
@@ -53,9 +57,10 @@ namespace WebShopBackend.Infrastructure.Migrations
                     first_name = table.Column<string>(type: "text", nullable: false),
                     last_name = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false),
-                    avatar_id = table.Column<string>(type: "text", nullable: false),
-                    user_role = table.Column<int>(type: "integer", nullable: false),
-                    password = table.Column<byte[]>(type: "bytea", nullable: false)
+                    avatar = table.Column<string>(type: "text", nullable: false, defaultValue: "https://gravatar.com/avatar/64a18a4cd914f298e737bde27cb24c29?s=400&d=mp&r=x"),
+                    user_role = table.Column<UserRole>(type: "user_role", nullable: false),
+                    password_hash = table.Column<string>(type: "text", nullable: false),
+                    salt = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {

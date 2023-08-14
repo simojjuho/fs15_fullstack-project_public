@@ -5,7 +5,7 @@
 namespace WebShopBackend.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class QueryTesting : Migration
+    public partial class AddFixes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

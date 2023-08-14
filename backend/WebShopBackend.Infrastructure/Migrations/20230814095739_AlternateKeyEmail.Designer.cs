@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using WebShopBackend.Core.Enums;
 using WebShopBackend.Infrastructure.Database;
 
 #nullable disable
@@ -12,8 +13,8 @@ using WebShopBackend.Infrastructure.Database;
 namespace WebShopBackend.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230810130127_QueryTesting")]
-    partial class QueryTesting
+    [Migration("20230814095739_AlternateKeyEmail")]
+    partial class AlternateKeyEmail
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +24,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "user_role", new[] { "customer", "admin" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("WebShopBackend.Core.Entities.Address", b =>
@@ -135,8 +137,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnName("id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -249,10 +250,12 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("AvatarId")
+                    b.Property<string>("Avatar")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("text")
-                        .HasColumnName("avatar_id");
+                        .HasDefaultValue("https://gravatar.com/avatar/64a18a4cd914f298e737bde27cb24c29?s=400&d=mp&r=x")
+                        .HasColumnName("avatar");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -273,21 +276,29 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("last_name");
 
-                    b.Property<byte[]>("Password")
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
+
+                    b.Property<byte[]>("Salt")
                         .IsRequired()
                         .HasColumnType("bytea")
-                        .HasColumnName("password");
+                        .HasColumnName("salt");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<int>("UserRole")
-                        .HasColumnType("integer")
+                    b.Property<UserRole>("UserRole")
+                        .HasColumnType("user_role")
                         .HasColumnName("user_role");
 
                     b.HasKey("Id")
                         .HasName("pk_users");
+
+                    b.HasAlternateKey("Email")
+                        .HasName("AlternateKeu_Email");
 
                     b.ToTable("users", (string)null);
                 });

@@ -10,17 +10,17 @@ namespace WebShopBackend.Business.Services;
 
 public class UserService : BaseService<User, UserGetDto, UserCreateDto, UserUpdateDto>, IUserService
 {
-    protected UserService(IBaseRepository<User> repository, IMapper mapper) : base(repository, mapper)
+    public UserService(IUserRepository repository, IMapper mapper) : base(repository, mapper)
     {
     }
     
     public override UserGetDto Create(UserCreateDto item)
     {
         var newUser = _mapper.Map<User>(item);
-        newUser.UserRole = UserRoles.Customer;
         PasswordService.HashPassword(item.Password, out var hashedPassword, out var salt);
         newUser.PasswordHash = hashedPassword;
         newUser.Salt = salt;
+        newUser.UserRole = UserRole.Customer;
         return _mapper.Map<UserGetDto>(_repository.Create(newUser));
     }
 }

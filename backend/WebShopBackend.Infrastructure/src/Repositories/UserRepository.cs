@@ -10,7 +10,7 @@ public class UserRepository : IUserRepository
     private readonly DatabaseContext _dbContext;
     private readonly DbSet<User> _users;
     
-    protected UserRepository(DatabaseContext context)
+    public UserRepository(DatabaseContext context)
     {
         _dbContext = context;
         _users = context.Set<User>();

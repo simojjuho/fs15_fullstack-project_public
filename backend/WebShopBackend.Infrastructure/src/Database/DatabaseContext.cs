@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using Npgsql;
 using WebShopBackend.Core.Entities;
+using WebShopBackend.Core.Enums;
 
 namespace WebShopBackend.Infrastructure.Database;
 
@@ -22,24 +24,30 @@ public class DatabaseContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("DefaultConnection"));
+        builder.MapEnum<UserRole>();
         optionsBuilder.AddInterceptors(new TimeStampInterceptor());
         optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Product>()
-            .Property(p => p.Id)
-            .HasDefaultValueSql("gen_random_uuid()");
+        modelBuilder.HasPostgresEnum<UserRole>();
+        modelBuilder.Entity<User>()
+            .Property(e => e.Avatar)
+            .HasDefaultValue("https://gravatar.com/avatar/64a18a4cd914f298e737bde27cb24c29?s=400&d=mp&r=x");
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+        {
+            foreach (var property in entity.GetProperties())
+            {
+                if (property.ClrType == typeof(Guid))
+                {
+                    property.SetValueGeneratorFactory((_, __) => new SequentialGuidValueGenerator());
+                }
+            }
+        }
 
-        /*modelBuilder.Entity<Product>()
-            .Property(p => p.CreatedAt)
-            .HasDefaultValueSql("now()")
-            .ValueGeneratedOnAdd();
-        
-        modelBuilder.Entity<Product>()
-            .Property(p => p.UpdatedAt)
-            .HasDefaultValueSql("now()")
-            .ValueGeneratedOnAdd();*/
+        modelBuilder.Entity<User>()
+            .HasAlternateKey(e => e.Email)
+            .HasName("AlternateKeu_Email");
     }
 }

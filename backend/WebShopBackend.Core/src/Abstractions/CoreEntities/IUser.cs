@@ -7,8 +7,8 @@ public interface IUser : IBaseEntity
     string FirstName { get; set; }
     string LastName { get; set; }
     string Email { get; set; }
-    string AvatarId { get; set; }
-    UserRoles UserRole { get; set; }
+    string Avatar { get; set; }
+    UserRole UserRole { get; set; }
     string PasswordHash { get; set; }
     byte[] Salt { get; set; }
 }

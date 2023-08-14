@@ -1,5 +1,7 @@
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -7,6 +9,7 @@ using WebShopBackend.Business;
 using WebShopBackend.Business.Services;
 using WebShopBackend.Business.Abstractions;
 using WebShopBackend.Business.DTOs.ProductDto;
+using WebShopBackend.Business.DTOs.UserDto;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
 using WebShopBackend.Infrastructure.Database;
@@ -22,9 +25,11 @@ builder.Services.AddControllers();
 
 // Repositories:
 builder.Services.AddScoped<IBaseRepository<Product>, ProductRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Add services:
 builder.Services.AddScoped<IBaseService<ProductGetDto, ProductCreateDto, ProductUpdateDto>, ProductService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
@@ -52,8 +57,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuer = true,
             ValidIssuer = "webshop-backend",
-            IssuerSigningKey = new JsonWebKey("secret"),
-            ValidateIssuerSigningKey = true
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my-secret-key")),
+            ValidateIssuerSigningKey = true,
+            ValidAlgorithms = new []{SecurityAlgorithms.HmacSha256}
         };
     });
 

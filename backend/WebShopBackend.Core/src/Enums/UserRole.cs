@@ -1,6 +1,6 @@
 namespace WebShopBackend.Core.Enums;
 
-public enum UserRoles
+public enum UserRole
 {
     Customer,
     Admin

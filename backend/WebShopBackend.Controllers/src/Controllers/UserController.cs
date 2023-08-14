@@ -7,6 +7,7 @@ using WebShopBackend.Core.Entities;
 
 namespace WebShopBackend.Controllers.Controllers;
 
+[ApiController]
 public class UserController : CrudController<User, UserGetDto, UserCreateDto, UserUpdateDto>
 {
     public UserController(IUserService service) : base(service)
@@ -19,9 +20,18 @@ public class UserController : CrudController<User, UserGetDto, UserCreateDto, Us
     {
         return base.GetAll(queryOptions);
     }
+    
+    [Authorize]
+    [HttpGet("{id}")]
+    [ProducesResponseType(statusCode: 200)]
+    [ProducesResponseType(statusCode: 404)]
+    public override ActionResult<UserGetDto> GetOne([FromRoute] Guid id)
+    {
+        return Ok(_service.GetOne(id));
+    }
 
     [Authorize]
-    [HttpGet]
+    [HttpGet("profile")]
     [ProducesResponseType(200)]
     [ProducesResponseType(401)]
     public ActionResult<UserGetDto> GetProfile()
