@@ -2,6 +2,8 @@ using AutoMapper;
 using WebShopBackend.Business.DTOs.OrderDto;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
+using WebShopBackend.Core.Enums;
+using WebShopBackend.Core.HelperClasses;
 
 namespace WebShopBackend.Business.Services;
 
@@ -17,29 +19,41 @@ public class OrderService : BaseService<Order, OrderGetDto, OrderCreateDto, Orde
         _productRepository = productRepository;
     }
 
-    public override OrderGetDto Create(OrderCreateDto item)
+    public override List<OrderGetDto> GetAll(QueryOptions queryOptions)
     {
-        var orderProduct = _mapper.Map<Order>(item);
-        //Create order and get the order id
-        // Creating OrderProducts and saving them
-        // - Includes also checking product inventory
-        throw new NotImplementedException();
+        return _mapper.Map<List<OrderGetDto>>(_orderRepository.GetAll(queryOptions));
     }
 
-    private OrderProduct CreateOrderProduct(OrderProductDto orderProduct, Order order)
+    public override OrderGetDto Create(OrderCreateDto item)
     {
-        var product = _productRepository.GetOne(orderProduct.Product.Id);
-        if (orderProduct.Amount < product.Inventory)
+        var newOrder = _mapper.Map<Order>(item);
+        foreach (var orderProductDto in item.OrderProducts)
         {
-            throw new ArgumentOutOfRangeException();
+            var newOrderProduct = CreateOrderProduct(orderProductDto, newOrder);
+            _orderProductRepository.Create(newOrderProduct);
+            newOrder.OrderProducts.Add(newOrderProduct);
         }
 
-        product.Inventory -= orderProduct.Amount;
+        newOrder.OrderStatus = OrderStatus.Received;
+        newOrder.AddressId = item.Address.Id;
+        newOrder.UserId = item.User.Id;
+        return _mapper.Map<OrderGetDto>(_orderRepository.Create(newOrder));
+    }
+
+    private OrderProduct CreateOrderProduct(OrderProductDto orderProductDto, Order order)
+    {
+        var product = _productRepository.GetOne(orderProductDto.Product.Id);
+        if (orderProductDto.Amount < product.Inventory)
+        {
+            throw new ArgumentException($"Not enough of inventory: {orderProductDto.Product.Title}");
+        }
+
+        product.Inventory -= orderProductDto.Amount;
         _productRepository.Update(product);
-        var newOrderProduct = _mapper.Map<OrderProduct>(orderProduct);
+        var newOrderProduct = _mapper.Map<OrderProduct>(orderProductDto);
         newOrderProduct.ProductId = product.Id;
         newOrderProduct.OrderId = order.Id;
         newOrderProduct.Order = order;
-        throw new NotImplementedException();
+        return newOrderProduct;
     }
 }

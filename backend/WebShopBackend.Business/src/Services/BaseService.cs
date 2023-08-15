@@ -18,12 +18,12 @@ public class BaseService<T , TGetDto, TCreateDto, TUpdateDto> : IBaseService<TGe
         _repository = repository;
         _mapper = mapper;
     }
-    public TGetDto GetOne(Guid id)
+    public virtual TGetDto GetOne(Guid id)
     {
         return _mapper.Map<TGetDto>(_repository.GetOne(id));
     }
 
-    public List<TGetDto> GetAll(QueryOptions queryOptions)
+    public virtual List<TGetDto> GetAll(QueryOptions queryOptions)
     {
         return _mapper.Map<List<TGetDto>>(_repository.GetAll(queryOptions));
     }

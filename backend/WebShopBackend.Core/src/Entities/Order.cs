@@ -15,5 +15,6 @@ public class Order : IOrder
     public User User { get; set; }
     public Guid AddressId { get; set; }
     public Address Address { get; set; }
+    public List<OrderProduct> OrderProducts { get; set; }
     public OrderStatus OrderStatus { get; set; }
 }
