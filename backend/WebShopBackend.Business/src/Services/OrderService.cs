@@ -10,18 +10,35 @@ namespace WebShopBackend.Business.Services;
 public class OrderService : BaseService<Order, OrderGetDto, OrderCreateDto, OrderUpdateDto>
 {
     private readonly IBaseRepository<Order> _orderRepository;
-    private readonly IBaseRepository<OrderProduct> _orderProductRepository;
+    private readonly IOrderProductRepository _orderProductRepository;
     private readonly IBaseRepository<Product> _productRepository;
-    public OrderService(IBaseRepository<Product> productRepository, IBaseRepository<Order> repository, IBaseRepository<OrderProduct> orderProductRepository, IMapper mapper) : base(repository, mapper)
+    public OrderService(IBaseRepository<Product> productRepository, IBaseRepository<Order> repository, IOrderProductRepository orderProductRepository, IMapper mapper) : base(repository, mapper)
     {
         _orderRepository = repository;
         _orderProductRepository = orderProductRepository;
         _productRepository = productRepository;
     }
 
-    public override List<OrderGetDto> GetAll(QueryOptions queryOptions)
+    public override OrderGetDto Update(Guid updateId, OrderUpdateDto itemForUpdate)
     {
-        return _mapper.Map<List<OrderGetDto>>(_orderRepository.GetAll(queryOptions));
+        _orderRepository.Update(_mapper.Map<Order>(itemForUpdate));
+        if (itemForUpdate.OrderProductDtos.Count > 0)
+        {
+            foreach (var orderProductDto in itemForUpdate.OrderProductDtos)
+            {
+                if (orderProductDto.Amount == 0)
+                {
+                    _orderProductRepository.Remove(_mapper.Map<OrderProduct>(orderProductDto));
+                }
+                var product = _productRepository.GetOne(orderProductDto.Product.Id);
+                if (CheckInventory(orderProductDto, product))
+                {
+                    _orderProductRepository.Update(_mapper.Map<OrderProduct>(orderProductDto));   
+                }
+            }
+        }
+
+        return _mapper.Map<OrderGetDto>(_orderRepository.GetOne(itemForUpdate.Id));
     }
 
     public override OrderGetDto Create(OrderCreateDto item)
@@ -40,14 +57,26 @@ public class OrderService : BaseService<Order, OrderGetDto, OrderCreateDto, Orde
         return _mapper.Map<OrderGetDto>(_orderRepository.Create(newOrder));
     }
 
+    public override bool Remove(Guid id)
+    {
+        // Remove first all OrderProducts attached to the order
+        var orderProducts = _orderProductRepository.GetAll(new OrderProductQuery
+        {
+            FilterBy = OrderProductsFilterBy.Order,
+            Id = id
+        });
+        foreach (var orderProduct in orderProducts)
+        {
+            _orderProductRepository.Remove(orderProduct);
+        }
+        
+        // Last removing the actual order entity
+        return base.Remove(id);
+    }
+
     private OrderProduct CreateOrderProduct(OrderProductDto orderProductDto, Order order)
     {
         var product = _productRepository.GetOne(orderProductDto.Product.Id);
-        if (orderProductDto.Amount < product.Inventory)
-        {
-            throw new ArgumentException($"Not enough of inventory: {orderProductDto.Product.Title}");
-        }
-
         product.Inventory -= orderProductDto.Amount;
         _productRepository.Update(product);
         var newOrderProduct = _mapper.Map<OrderProduct>(orderProductDto);
@@ -55,5 +84,15 @@ public class OrderService : BaseService<Order, OrderGetDto, OrderCreateDto, Orde
         newOrderProduct.OrderId = order.Id;
         newOrderProduct.Order = order;
         return newOrderProduct;
+    }
+
+    private bool CheckInventory(OrderProductDto orderProductDto, Product product)
+    {
+        if (orderProductDto.Amount < product.Inventory)
+        {
+            throw new ArgumentException($"Not enough of inventory: {orderProductDto.Product.Title}");
+        }
+
+        return true;
     }
 }

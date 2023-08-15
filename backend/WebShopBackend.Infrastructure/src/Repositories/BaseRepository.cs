@@ -22,7 +22,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntity
         var items = _dbSet
             .AsEnumerable()
             .Where(e => 
-                e.GetType().GetProperty(queryOptions.FilterBy)!.GetValue(e)!.ToString()!.Contains(
+                e.GetType().GetProperty(queryOptions.FilterBy)!.GetValue(e)!.ToString()!.ToLower().Contains(
                     queryOptions.Filter.ToLower()
                     )
             )

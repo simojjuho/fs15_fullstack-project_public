@@ -44,7 +44,7 @@ public class BaseService<T , TGetDto, TCreateDto, TUpdateDto> : IBaseService<TGe
         return _mapper.Map<TGetDto>(_repository.Update(actualItem));
     }
 
-    public bool Remove(Guid id)
+    public virtual bool Remove(Guid id)
     {
         var item = _repository.GetOne(id);
         return _repository.Remove(item);

@@ -8,6 +8,7 @@ using WebShopBackend.Business;
 using WebShopBackend.Business.Services;
 using WebShopBackend.Business.Abstractions;
 using WebShopBackend.Business.DTOs;
+using WebShopBackend.Business.DTOs.OrderDto;
 using WebShopBackend.Business.DTOs.ProductCategoryDto;
 using WebShopBackend.Business.DTOs.ProductDto;
 using WebShopBackend.Business.Shared;
@@ -30,7 +31,9 @@ builder
 builder.Services
     .AddScoped<IBaseRepository<Product>, ProductRepository>()
     .AddScoped<IUserRepository, UserRepository>()
-    .AddScoped<IBaseRepository<ProductCategory>, ProductCategoryRepository>();
+    .AddScoped<IBaseRepository<ProductCategory>, ProductCategoryRepository>()
+    .AddScoped<IBaseRepository<Order>, OrderRepository>()
+    .AddScoped<IOrderProductRepository, OrderProductRepository>();
 
 
 // Add services:
@@ -39,7 +42,8 @@ builder.Services
     .AddScoped<IUserService, UserService>()
     .AddScoped<IAuthService, AuthService>()
     .AddScoped<IBaseService<ProductCategoryGetDto, ProductCategoryCreateDto, ProductCategoryUpdateDto>,
-        ProductCategoryService>();
+        ProductCategoryService>()
+    .AddScoped<IBaseService<OrderGetDto, OrderCreateDto, OrderUpdateDto>, OrderService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
@@ -79,6 +83,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPrivilege", policy => policy.RequireRole("Admin"));
     options.AddPolicy("whitelist", policy => policy.RequireClaim(ClaimTypes.Email, "juho@mail.com"));
+    options.AddPolicy("CustomerOnly", policy => policy.RequireRole("Customer"));
     // options.AddPolicy("IsOwner", policy => policy.);
 });
 

@@ -5,8 +5,6 @@ namespace WebShopBackend.Business.DTOs.OrderDto;
 
 public class OrderCreateDto
 {
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset? UpdatedAt { get;  set; }
     public UserGetDto User { get; set; }
     public Address Address { get; set; }
     public List<OrderProductDto> OrderProducts { get; set; }

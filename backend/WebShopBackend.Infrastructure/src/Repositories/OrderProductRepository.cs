@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
 using WebShopBackend.Core.Enums;
 using WebShopBackend.Core.HelperClasses;
@@ -6,7 +7,7 @@ using WebShopBackend.Infrastructure.Database;
 
 namespace WebShopBackend.Infrastructure.Repositories;
 
-public class OrderProductRepository
+public class OrderProductRepository : IOrderProductRepository
 {
     protected readonly DatabaseContext _dbContext;
     protected readonly DbSet<OrderProduct> _dbSet;
@@ -18,7 +19,7 @@ public class OrderProductRepository
     }
     public List<OrderProduct> GetAll(OrderProductQuery query)
     {
-        switch (query.flterBy)
+        switch (query.FilterBy)
         {
             case OrderProductsFilterBy.Order:
                 return _dbSet
