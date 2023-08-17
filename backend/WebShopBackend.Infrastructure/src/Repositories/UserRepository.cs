@@ -50,7 +50,9 @@ public class UserRepository : IUserRepository
 
     public User GetOne(Guid id)
     {
-        var user = _users.Find(id);
+        var user = _users
+            .Include(e => e.Addresses)
+            .FirstOrDefault(e => e.Id == id);
         if (user is null)
         {
             throw new KeyNotFoundException();

@@ -32,6 +32,10 @@ public class DatabaseContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Product>()
+            .ToTable(t => t.HasCheckConstraint("products_inventory_unsigned", "Inventory >= 0 AND Inventory < 65536"));
+        modelBuilder.Entity<Product>()
+            .ToTable(t => t.HasCheckConstraint("products_price_unsigned", "Price >= 0"));
         modelBuilder.HasPostgresEnum<UserRole>();
         modelBuilder.HasPostgresEnum<OrderStatus>();
         modelBuilder.Entity<User>()

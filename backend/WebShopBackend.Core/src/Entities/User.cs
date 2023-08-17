@@ -20,4 +20,5 @@ public class User: IUser
     public UserRole UserRole { get; set; }
     public string PasswordHash { get; set; }
     public byte[] Salt { get; set; }
+    public List<Address> Addresses { get; set; }
 }

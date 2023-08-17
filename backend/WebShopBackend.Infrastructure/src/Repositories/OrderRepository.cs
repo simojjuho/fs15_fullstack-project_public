@@ -14,7 +14,7 @@ public class OrderRepository : BaseRepository<Order>
     public override List<Order> GetAll(QueryOptions queryOptions)
     {
         var items = _dbSet
-            .AsEnumerable()
+            .Include(e => e.OrderProducts)
             .Where(e => 
                 e.User.Email.ToLower().Contains(
                     queryOptions.Filter.ToLower()

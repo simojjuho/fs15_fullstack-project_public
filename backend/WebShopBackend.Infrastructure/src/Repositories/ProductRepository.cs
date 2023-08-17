@@ -31,4 +31,17 @@ public class ProductRepository : BaseRepository<Product>
             .Take(queryOptions.PerPage)
             .ToList();    
     }
+    
+    public override Product GetOne(Guid id)
+    {
+        var entity = _dbSet
+            .Include(e => e.ProductCategory)
+            .FirstOrDefault(e => e.Id == id);
+        if (entity is null)
+        {
+            throw new KeyNotFoundException("Wrong id!");
+        }
+
+        return entity;
+    }
 }

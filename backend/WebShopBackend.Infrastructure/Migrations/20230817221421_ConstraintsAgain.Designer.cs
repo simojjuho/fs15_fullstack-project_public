@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebShopBackend.Core.Enums;
@@ -12,9 +13,11 @@ using WebShopBackend.Infrastructure.Database;
 namespace WebShopBackend.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230817221421_ConstraintsAgain")]
+    partial class ConstraintsAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,7 +188,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                         {
                             t.HasCheckConstraint("products_inventory_unsigned", "Inventory >= 0 AND Inventory < 65536");
 
-                            t.HasCheckConstraint("products_price_unsigned", "Price >= 0");
+                            t.HasCheckConstraint("products_price_unsigned", "Inventory >= 0");
                         });
                 });
 

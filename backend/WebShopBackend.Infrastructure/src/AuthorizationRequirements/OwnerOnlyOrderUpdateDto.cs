@@ -15,7 +15,7 @@ public class OwnerOnlyHandlerOrderUpdateDto : AuthorizationHandler<OwnerOnlyOrde
         OrderUpdateDto resource)
     {
         var authenticatedUser = context.User.FindFirst(e => e.Type == ClaimTypes.NameIdentifier)!.Value;
-        if (resource.OrderId == new Guid(authenticatedUser))
+        if (resource.Id == new Guid(authenticatedUser))
         {
             context.Succeed(requirement);
         }

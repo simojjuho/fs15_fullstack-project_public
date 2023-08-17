@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebShopBackend.Core.Enums;
@@ -12,9 +13,11 @@ using WebShopBackend.Infrastructure.Database;
 namespace WebShopBackend.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230817214838_TryAgainConstraint")]
+    partial class TryAgainConstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,7 +162,8 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnName("inventory");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
                         .HasColumnName("price");
 
                     b.Property<Guid>("ProductCategoryId")
@@ -181,12 +185,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                     b.HasIndex("ProductCategoryId")
                         .HasDatabaseName("ix_products_product_category_id");
 
-                    b.ToTable("products", null, t =>
-                        {
-                            t.HasCheckConstraint("products_inventory_unsigned", "Inventory >= 0 AND Inventory < 65536");
-
-                            t.HasCheckConstraint("products_price_unsigned", "Price >= 0");
-                        });
+                    b.ToTable("products", (string)null);
                 });
 
             modelBuilder.Entity("WebShopBackend.Core.Entities.ProductCategory", b =>

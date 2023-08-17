@@ -36,8 +36,8 @@ public class OrderController : CrudController<Order, OrderGetDto, OrderCreateDto
     }
 
     [Authorize("AdminsOnly")]
-    [HttpDelete]
-    public override ActionResult<bool> Delete(Guid id)
+    [HttpDelete("{id}")]
+    public override ActionResult<bool> Delete([FromRoute]Guid id)
     {
         return base.Delete(id);
     }
