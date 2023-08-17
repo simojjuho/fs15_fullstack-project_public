@@ -32,4 +32,20 @@ public class OrderRepository : BaseRepository<Order>
             .Take(queryOptions.PerPage)
             .ToList();
     }
+    
+    
+    public override Order GetOne(Guid id)
+    {
+        var entity = _dbSet
+            .Include(e => e.User)
+            .Include(e => e.OrderProducts)
+            .Include(e => e.Address)
+            .FirstOrDefault(e => e.Id == id);
+        if (entity is null)
+        {
+            throw new KeyNotFoundException("Wrong id!");
+        }
+
+        return entity;
+    }
 }

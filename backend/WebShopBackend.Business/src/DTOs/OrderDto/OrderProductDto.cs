@@ -4,6 +4,6 @@ namespace WebShopBackend.Business.DTOs.OrderDto;
 
 public class OrderProductDto
 {
-    public ProductGetDto Product { get; set; }
+    public Guid ProductId { get; set; }
     public int Amount { get; set; }
 }

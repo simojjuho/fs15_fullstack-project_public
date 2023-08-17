@@ -9,5 +9,5 @@ public class ProductUpdateDto
     public int Inventory { get; set; }
     public string Description { get; set; }
     [Ignore]
-    public string CategpryName { get; set; }
+    public Guid ProductCategoryId { get; set; }
 }

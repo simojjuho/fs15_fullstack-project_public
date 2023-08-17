@@ -17,14 +17,14 @@ public class UserController : CrudController<User, UserGetDto, UserCreateDto, Us
         _userService = service;
     }
 
-    [Authorize]
+    [Authorize(Policy = "AdminsOnly")]
     [HttpGet]
     public override ActionResult<List<UserGetDto>> GetAll(QueryOptions queryOptions)
     {
         return _userService.GetAll(queryOptions);
     }
     
-    [Authorize]
+    [Authorize(Policy = "AdminsOnly")]
     [HttpGet("{id}")]
     [ProducesResponseType(statusCode: 200)]
     [ProducesResponseType(statusCode: 404)]
@@ -44,7 +44,7 @@ public class UserController : CrudController<User, UserGetDto, UserCreateDto, Us
         return Ok(_userService.GetOne(new Guid(id)));
     }
 
-    [Authorize]
+    [Authorize(Policy = "AdminsOnly")]
     public override ActionResult<UserGetDto> Update(Guid id, UserUpdateDto itemDto)
     {
         var idFromToken = HttpContext.User.Claims.FirstOrDefault(e => e.Type == ClaimTypes.NameIdentifier)!.Value;

@@ -8,5 +8,5 @@ public class ProductCreateDto
     public decimal Price { get; set; }
     public string Description { get; set; }
     [Ignore]
-    public Guid CategoryId { get; set; }
+    public Guid ProductCategoryId { get; set; }
 }

@@ -21,6 +21,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "order_status", new[] { "received", "shipped", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "user_role", new[] { "customer", "admin" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -82,8 +83,8 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("integer")
+                    b.Property<OrderStatus>("OrderStatus")
+                        .HasColumnType("order_status")
                         .HasColumnName("order_status");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
@@ -120,6 +121,14 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("amount");
 
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
                     b.HasKey("ProductId", "OrderId")
                         .HasName("pk_order_products");
 
@@ -135,10 +144,6 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("category_id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -347,7 +352,7 @@ namespace WebShopBackend.Infrastructure.Migrations
             modelBuilder.Entity("WebShopBackend.Core.Entities.OrderProduct", b =>
                 {
                     b.HasOne("WebShopBackend.Core.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderProducts")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -396,6 +401,11 @@ namespace WebShopBackend.Infrastructure.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebShopBackend.Core.Entities.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("WebShopBackend.Core.Entities.Product", b =>

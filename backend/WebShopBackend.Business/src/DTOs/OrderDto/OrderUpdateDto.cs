@@ -6,6 +6,7 @@ namespace WebShopBackend.Business.DTOs.OrderDto;
 public class OrderUpdateDto
 {
     public Guid Id { get; set; }
-    public Address Address { get; set; }
+    public Guid OrderId { get; set; }
+    public Guid AddressId { get; set; }
     public List<OrderProductDto> OrderProductDtos { get; set; }
 }

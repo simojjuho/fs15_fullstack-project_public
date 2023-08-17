@@ -13,8 +13,8 @@ using WebShopBackend.Infrastructure.Database;
 namespace WebShopBackend.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230814093623_UserRoleRemoveDefault")]
-    partial class UserRoleRemoveDefault
+    [Migration("20230815122853_FixIdGeneration")]
+    partial class FixIdGeneration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "order_status", new[] { "received", "shipped", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "user_role", new[] { "customer", "admin" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -85,8 +86,8 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("integer")
+                    b.Property<OrderStatus>("OrderStatus")
+                        .HasColumnType("order_status")
                         .HasColumnName("order_status");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
@@ -123,6 +124,14 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("amount");
 
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
                     b.HasKey("ProductId", "OrderId")
                         .HasName("pk_order_products");
 
@@ -157,6 +166,10 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("price");
 
+                    b.Property<Guid>("ProductCategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_category_id");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text")
@@ -168,6 +181,9 @@ namespace WebShopBackend.Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_products");
+
+                    b.HasIndex("ProductCategoryId")
+                        .HasDatabaseName("ix_products_product_category_id");
 
                     b.ToTable("products", (string)null);
                 });
@@ -297,6 +313,9 @@ namespace WebShopBackend.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_users");
 
+                    b.HasAlternateKey("Email")
+                        .HasName("AlternateKeu_Email");
+
                     b.ToTable("users", (string)null);
                 });
 
@@ -336,7 +355,7 @@ namespace WebShopBackend.Infrastructure.Migrations
             modelBuilder.Entity("WebShopBackend.Core.Entities.OrderProduct", b =>
                 {
                     b.HasOne("WebShopBackend.Core.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderProducts")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -352,6 +371,18 @@ namespace WebShopBackend.Infrastructure.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("WebShopBackend.Core.Entities.Product", b =>
+                {
+                    b.HasOne("WebShopBackend.Core.Entities.ProductCategory", "ProductCategory")
+                        .WithMany()
+                        .HasForeignKey("ProductCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_products_product_category_product_category_id");
+
+                    b.Navigation("ProductCategory");
                 });
 
             modelBuilder.Entity("WebShopBackend.Core.Entities.Review", b =>
@@ -373,6 +404,11 @@ namespace WebShopBackend.Infrastructure.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebShopBackend.Core.Entities.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("WebShopBackend.Core.Entities.Product", b =>

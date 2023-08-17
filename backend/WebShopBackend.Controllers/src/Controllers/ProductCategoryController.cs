@@ -13,7 +13,7 @@ public class ProductCategoryController : CrudController<ProductCategory, Product
     {
     }
     
-    [Authorize(Policy = "AdminPrivilege")]
+    [Authorize(Policy = "AdminsOnly")]
     [HttpPost]
     [ProducesResponseType(statusCode: 200)]
     [ProducesResponseType(statusCode: 401)]
@@ -23,7 +23,7 @@ public class ProductCategoryController : CrudController<ProductCategory, Product
         return Ok(_service.Create(itemDto));
     }
 
-    [Authorize(Policy = "AdminPrivilege")]
+    [Authorize(Policy = "AdminsOnly")]
     [HttpPatch("{id}")]
     [ProducesResponseType(statusCode: 200)]
     [ProducesResponseType(statusCode: 401)]
@@ -33,7 +33,7 @@ public class ProductCategoryController : CrudController<ProductCategory, Product
         return Ok(_service.Update(id, itemDto));
     }
 
-    [Authorize(Policy = "AdminPrivilege")]
+    [Authorize(Policy = "AdminsOnly")]
     [HttpDelete("{id}")]
     [ProducesResponseType(statusCode: 200)]
     [ProducesResponseType(statusCode: 401)]

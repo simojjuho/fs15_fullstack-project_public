@@ -17,9 +17,9 @@ public class ProductService : BaseService<Product, ProductGetDto, ProductCreateD
     public override ProductGetDto Update(Guid updateId, ProductUpdateDto itemForUpdate)
     {
         var itemUpdate = _mapper.Map<Product>(itemForUpdate);
-        itemUpdate.ProductCategory = _categoryRepository.GetOne(itemUpdate.CategoryId);
+        itemUpdate.ProductCategory = _categoryRepository.GetOne(itemUpdate.ProductCategoryId);
         itemUpdate.Id = updateId;
-        var actualItem = _repository.GetOne(itemUpdate.Id);
+        var actualItem = _repository.GetOne(updateId);
         EnttiyIterator<Product>.CheckNullValues(actualItem, itemUpdate);
         EnttiyIterator<Product>.ReplaceProperyValues(actualItem, itemUpdate);
         return _mapper.Map<ProductGetDto>(_repository.Update(actualItem));

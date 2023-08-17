@@ -14,7 +14,7 @@ public class ProductController : CrudController<Product, ProductGetDto, ProductC
     {
     }
     
-    [Authorize]
+    [Authorize("AdminsOnly")]
     [HttpPost]
     [ProducesResponseType(statusCode: 200)]
     [ProducesResponseType(statusCode: 400)]
@@ -24,7 +24,7 @@ public class ProductController : CrudController<Product, ProductGetDto, ProductC
         return Ok(base._service.Create(itemDto));
     }
     
-    [Authorize]
+    [Authorize("AdminsOnly")]
     [HttpPatch("{id}")]
     [ProducesResponseType(statusCode: 200)]
     [ProducesResponseType(statusCode: 400)]
@@ -35,7 +35,7 @@ public class ProductController : CrudController<Product, ProductGetDto, ProductC
         return Ok(_service.Update(id, itemDto));
     }
 
-    [Authorize]
+    [Authorize("AdminsOnly")]
     [HttpDelete("{id}")]
     [ProducesResponseType(statusCode: 200)]
     [ProducesResponseType(statusCode: 401)]

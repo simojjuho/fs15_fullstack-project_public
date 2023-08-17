@@ -10,19 +10,19 @@ namespace WebShopBackend.Infrastructure.Repositories;
 public class OrderProductRepository : IOrderProductRepository
 {
     protected readonly DatabaseContext _dbContext;
-    protected readonly DbSet<OrderProduct> _dbSet;
+    protected readonly DbSet<OrderProduct> _orderProducts;
 
     public OrderProductRepository(DatabaseContext context)
     {
         _dbContext = context;
-        _dbSet = context.Set<OrderProduct>();
+        _orderProducts = context.Set<OrderProduct>();
     }
     public List<OrderProduct> GetAll(OrderProductQuery query)
     {
         switch (query.FilterBy)
         {
             case OrderProductsFilterBy.Order:
-                return _dbSet
+                return _orderProducts
                     .Where(
                         e => e.OrderId == query.Id
                     )
@@ -30,7 +30,7 @@ public class OrderProductRepository : IOrderProductRepository
                     .OrderDescending()
                     .ToList();
             case OrderProductsFilterBy.Product:
-                return _dbSet
+                return _orderProducts
                     .Where(
                         e => e.OrderId == query.Id
                     )
@@ -44,7 +44,7 @@ public class OrderProductRepository : IOrderProductRepository
 
     public OrderProduct GetOne(Guid productId, Guid orderId)
     {
-        var entity = _dbSet.FirstOrDefault(e => e.OrderId == orderId && e.ProductId == productId);
+        var entity = _orderProducts.FirstOrDefault(e => e.OrderId == orderId && e.ProductId == productId);
         if (entity is null)
         {
             throw new KeyNotFoundException("Wrong id!");
@@ -55,21 +55,22 @@ public class OrderProductRepository : IOrderProductRepository
 
     public OrderProduct Create(OrderProduct item)
     {
-        _dbSet.Add(item);
+        Console.WriteLine("Before add!");
+        var addedEntity = _orderProducts.Add(item);
         _dbContext.SaveChanges();
-        return item;
+        return addedEntity.Entity;
     }
 
     public OrderProduct Update(OrderProduct itemForUpdate)
     {
-        _dbSet.Update(itemForUpdate);
+        _orderProducts.Update(itemForUpdate);
         _dbContext.SaveChanges();
         return itemForUpdate;
     }
 
     public bool Remove(OrderProduct item)
     {
-        _dbSet.Remove(item);
+        _orderProducts.Remove(item);
         _dbContext.SaveChanges();
         return true;    
     }

@@ -30,7 +30,7 @@ public class OrderService : BaseService<Order, OrderGetDto, OrderCreateDto, Orde
                 {
                     _orderProductRepository.Remove(_mapper.Map<OrderProduct>(orderProductDto));
                 }
-                var product = _productRepository.GetOne(orderProductDto.Product.Id);
+                var product = _productRepository.GetOne(orderProductDto.ProductId);
                 if (CheckInventory(orderProductDto, product))
                 {
                     _orderProductRepository.Update(_mapper.Map<OrderProduct>(orderProductDto));   
@@ -44,17 +44,16 @@ public class OrderService : BaseService<Order, OrderGetDto, OrderCreateDto, Orde
     public override OrderGetDto Create(OrderCreateDto item)
     {
         var newOrder = _mapper.Map<Order>(item);
+        newOrder.OrderStatus = OrderStatus.Received;
+        
         foreach (var orderProductDto in item.OrderProducts)
         {
-            var newOrderProduct = CreateOrderProduct(orderProductDto, newOrder);
-            _orderProductRepository.Create(newOrderProduct);
-            newOrder.OrderProducts.Add(newOrderProduct);
+            var product = _productRepository.GetOne(orderProductDto.ProductId);
+            CheckInventory(orderProductDto, product);
+            //_orderProductRepository.Create(newOrderProduct);
         }
-
-        newOrder.OrderStatus = OrderStatus.Received;
-        newOrder.AddressId = item.Address.Id;
-        newOrder.UserId = item.User.Id;
-        return _mapper.Map<OrderGetDto>(_orderRepository.Create(newOrder));
+        var createdOrder = _orderRepository.Create(newOrder);
+        return _mapper.Map<OrderGetDto>(createdOrder);
     }
 
     public override bool Remove(Guid id)
@@ -76,21 +75,21 @@ public class OrderService : BaseService<Order, OrderGetDto, OrderCreateDto, Orde
 
     private OrderProduct CreateOrderProduct(OrderProductDto orderProductDto, Order order)
     {
-        var product = _productRepository.GetOne(orderProductDto.Product.Id);
+        var product = _productRepository.GetOne(orderProductDto.ProductId);
+        CheckInventory(orderProductDto, product);
         product.Inventory -= orderProductDto.Amount;
         _productRepository.Update(product);
         var newOrderProduct = _mapper.Map<OrderProduct>(orderProductDto);
         newOrderProduct.ProductId = product.Id;
         newOrderProduct.OrderId = order.Id;
-        newOrderProduct.Order = order;
         return newOrderProduct;
     }
 
     private bool CheckInventory(OrderProductDto orderProductDto, Product product)
     {
-        if (orderProductDto.Amount < product.Inventory)
+        if (orderProductDto.Amount > product.Inventory)
         {
-            throw new ArgumentException($"Not enough of inventory: {orderProductDto.Product.Title}");
+            throw new ArgumentException($"Not enough of inventory: {product.Title}");
         }
 
         return true;

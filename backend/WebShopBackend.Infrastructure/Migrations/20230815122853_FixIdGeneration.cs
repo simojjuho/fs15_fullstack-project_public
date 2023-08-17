@@ -7,12 +7,13 @@ using WebShopBackend.Core.Enums;
 namespace WebShopBackend.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class UserRoleRemoveDefault : Migration
+    public partial class FixIdGeneration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:order_status", "received,shipped,cancelled")
                 .Annotation("Npgsql:Enum:user_role", "customer,admin");
 
             migrationBuilder.CreateTable(
@@ -28,23 +29,6 @@ namespace WebShopBackend.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_product_category", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "products",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    title = table.Column<string>(type: "text", nullable: false),
-                    price = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
-                    inventory = table.Column<int>(type: "integer", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: false),
-                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_products", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,6 +49,31 @@ namespace WebShopBackend.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_users", x => x.id);
+                    table.UniqueConstraint("AlternateKeu_Email", x => x.email);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "products",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    title = table.Column<string>(type: "text", nullable: false),
+                    price = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
+                    inventory = table.Column<int>(type: "integer", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: false),
+                    product_category_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_products", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_products_product_category_product_category_id",
+                        column: x => x.product_category_id,
+                        principalTable: "product_category",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,7 +136,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                     updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     address_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    order_status = table.Column<int>(type: "integer", nullable: false)
+                    order_status = table.Column<OrderStatus>(type: "order_status", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -152,7 +161,9 @@ namespace WebShopBackend.Infrastructure.Migrations
                 {
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     order_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    amount = table.Column<int>(type: "integer", nullable: false)
+                    amount = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -192,6 +203,11 @@ namespace WebShopBackend.Infrastructure.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_products_product_category_id",
+                table: "products",
+                column: "product_category_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_reviews_product_id",
                 table: "reviews",
                 column: "product_id");
@@ -209,9 +225,6 @@ namespace WebShopBackend.Infrastructure.Migrations
                 name: "order_products");
 
             migrationBuilder.DropTable(
-                name: "product_category");
-
-            migrationBuilder.DropTable(
                 name: "reviews");
 
             migrationBuilder.DropTable(
@@ -222,6 +235,9 @@ namespace WebShopBackend.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "address");
+
+            migrationBuilder.DropTable(
+                name: "product_category");
 
             migrationBuilder.DropTable(
                 name: "users");

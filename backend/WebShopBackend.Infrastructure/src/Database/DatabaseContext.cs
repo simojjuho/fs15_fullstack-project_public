@@ -41,7 +41,7 @@ public class DatabaseContext : DbContext
         {
             foreach (var property in entity.GetProperties())
             {
-                if (property.ClrType == typeof(Guid))
+                if (property.ClrType == typeof(Guid) && property.Name == "Id")
                 {
                     property.SetValueGeneratorFactory((_, __) => new SequentialGuidValueGenerator());
                 }
