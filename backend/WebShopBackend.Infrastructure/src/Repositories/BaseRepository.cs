@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-
+using WebShopBackend.Business.Shared;
 using WebShopBackend.Core.Abstractions.CoreEntities;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.HelperClasses;
 using WebShopBackend.Infrastructure.Database;
+using WebShopBackend.Infrastructure.Middleware;
 
 namespace WebShopBackend.Infrastructure.Repositories;
 
@@ -44,7 +45,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntity
         var entity = _dbSet.Find(id);
         if (entity is null)
         {
-            throw new KeyNotFoundException("Wrong id!");
+            throw CustomException.NotFoundException();
         }
 
         return entity;

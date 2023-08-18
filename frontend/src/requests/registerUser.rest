@@ -1,0 +1,9 @@
+POST https://api.escuelajs.co/api/v1/users/
+Content-Type: application/json
+
+{
+    "name": "Paivi",
+    "email": "paivi@mail.com",
+    "password": "Salas87",
+    "avatar": "https://i.pravatar.cc/300"
+}

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebShopBackend.Business.Shared;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
 using WebShopBackend.Core.Enums;
@@ -38,7 +39,7 @@ public class OrderProductRepository : IOrderProductRepository
                     .OrderDescending()
                     .ToList();
             default:
-                throw new ArgumentException();
+                throw CustomException.InvalidDataException();
         }
     }
 
@@ -47,7 +48,7 @@ public class OrderProductRepository : IOrderProductRepository
         var entity = _orderProducts.FirstOrDefault(e => e.OrderId == orderId && e.ProductId == productId);
         if (entity is null)
         {
-            throw new KeyNotFoundException("Wrong id!");
+            throw CustomException.InvalidDataException();
         }
 
         return entity;

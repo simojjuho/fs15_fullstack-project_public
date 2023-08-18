@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebShopBackend.Business.Shared;
 using WebShopBackend.Core.Abstractions.CoreEntities;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
@@ -39,7 +40,7 @@ public class ProductRepository : BaseRepository<Product>
             .FirstOrDefault(e => e.Id == id);
         if (entity is null)
         {
-            throw new KeyNotFoundException("Wrong id!");
+            throw CustomException.NotFoundException();
         }
 
         return entity;

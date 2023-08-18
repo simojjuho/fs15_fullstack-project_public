@@ -1,0 +1,7 @@
+POST https://api.escuelajs.co/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "tariq@yahoo.com",
+  "password": "tariq1234"
+}

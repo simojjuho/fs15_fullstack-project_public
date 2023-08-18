@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebShopBackend.Business.Shared;
 using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
 using WebShopBackend.Core.HelperClasses;
@@ -55,7 +56,7 @@ public class UserRepository : IUserRepository
             .FirstOrDefault(e => e.Id == id);
         if (user is null)
         {
-            throw new KeyNotFoundException();
+            throw CustomException.NotFoundException();
         }
 
         return user;

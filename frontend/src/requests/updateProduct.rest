@@ -1,0 +1,8 @@
+PUT https://api.escuelajs.co/api/v1/products/1
+Content-Type: application/json
+
+{
+  "title": "Leopard 2",
+  "price": 1000,
+  "category": 3
+}

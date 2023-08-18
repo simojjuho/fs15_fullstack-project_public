@@ -18,6 +18,7 @@ using WebShopBackend.Core.Abstractions.Repositories;
 using WebShopBackend.Core.Entities;
 using WebShopBackend.Infrastructure.AuthorizationRequirements;
 using WebShopBackend.Infrastructure.Database;
+using WebShopBackend.Infrastructure.Middleware;
 using WebShopBackend.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,6 +50,9 @@ builder.Services
         ProductCategoryService>()
     .AddScoped<IBaseService<OrderGetDto, OrderCreateDto, OrderUpdateDto>, OrderService>()
     .AddScoped<IBaseService<AddressGetDto, AddressCreateDto, AddressUpdateDto>, AddressService>();
+
+builder.Services
+    .AddScoped<ErrorHandler>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
@@ -103,6 +107,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ErrorHandler>();
 
 app.UseAuthentication();
 
