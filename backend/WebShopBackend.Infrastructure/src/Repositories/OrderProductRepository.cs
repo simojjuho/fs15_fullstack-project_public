@@ -24,6 +24,7 @@ public class OrderProductRepository : IOrderProductRepository
         {
             case OrderProductsFilterBy.Order:
                 return _orderProducts
+                    .AsNoTracking()
                     .Where(
                         e => e.OrderId == query.Id
                     )

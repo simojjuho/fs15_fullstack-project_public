@@ -24,7 +24,7 @@ export const getAllProducts = createAsyncThunk(
     'getAllProducts',
     async () => {
         try {
-            const result = await axios.get<Product[]>('https://api.escuelajs.co/api/v1/products')
+            const result = await axios.get<Product[]>('http://localhost:5093/api/v1/products')
             return result.data
         } catch (e) {
             let error = e as AxiosError
@@ -36,7 +36,7 @@ export const createProduct = createAsyncThunk(
     'createProduct',
     async (newProduct: ProductWithoutId): Promise<Product | AxiosError> => {
         try {
-            const result = await axios.post<Product>('https://api.escuelajs.co/api/v1/products', newProduct)
+            const result = await axios.post<Product>('http://localhost:5093/api/v1/products', newProduct)
             return result.data
         } catch (e) {
             let error = e as AxiosError
@@ -48,7 +48,7 @@ export const removeProduct = createAsyncThunk(
     'removeProduct',
     async (id: number): Promise<{result: boolean, id: number} | AxiosError> => {
         try {
-            const { data } = await axios.delete(`https://api.escuelajs.co/api/v1/products/${id}`)
+            const { data } = await axios.delete(`http://localhost:5093/api/v1/products/${id}`)
             return {result: data, id: id}
         } catch (e) {
             let error = e as AxiosError
@@ -74,7 +74,7 @@ export const updateProduct = createAsyncThunk(
                     ...newProps.data
                 }
             }     
-            const { data } = await axios.put<Product>(`https://api.escuelajs.co/api/v1/products/${newProps.id}`, dataForUpdate)
+            const { data } = await axios.put<Product>(`http://localhost:5093/api/v1/products/${newProps.id}`, dataForUpdate)
             return data
         } catch (e) {
             let error = e as AxiosError

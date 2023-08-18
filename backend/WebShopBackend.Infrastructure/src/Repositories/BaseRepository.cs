@@ -21,6 +21,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntity
     public virtual List<T> GetAll(QueryOptions queryOptions)
     {
         var items = _dbSet
+            .AsNoTracking()
             .AsEnumerable()
             .Where(e => 
                 e.GetType().GetProperty(queryOptions.FilterBy)!.GetValue(e)!.ToString()!.ToLower().Contains(

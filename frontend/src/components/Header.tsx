@@ -23,7 +23,7 @@ const Header = () => {
     const shoppngCart = useAppSelector(state => state.shoppingCartReducer)
     const user = useAppSelector(state => state.userReducer.user)
     const userMenuItems = user ? ['Profile', 'Logout'] : ['Login', 'Sign up']
-    if (user?.role === 'admin') userMenuItems.unshift('Admin dashboard')
+    //if (window.localStorage.getItem === 'admin') userMenuItems.unshift('Admin dashboard')
     const navigate = useNavigate()
     const handleMenuItemClick = (action: string) => {
         switch (action) {

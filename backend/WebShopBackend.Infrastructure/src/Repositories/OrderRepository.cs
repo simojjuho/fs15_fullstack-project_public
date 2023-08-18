@@ -15,6 +15,7 @@ public class OrderRepository : BaseRepository<Order>
     public override List<Order> GetAll(QueryOptions queryOptions)
     {
         var items = _dbSet
+            .AsNoTracking()
             .Include(e => e.OrderProducts)
             .Where(e => 
                 e.User.Email.ToLower().Contains(
@@ -38,6 +39,7 @@ public class OrderRepository : BaseRepository<Order>
     public override Order GetOne(Guid id)
     {
         var entity = _dbSet
+            .AsNoTracking()
             .Include(e => e.User)
             .Include(e => e.OrderProducts)
             .Include(e => e.Address)

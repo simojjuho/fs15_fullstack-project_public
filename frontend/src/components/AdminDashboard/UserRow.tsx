@@ -14,8 +14,7 @@ const UserRow = ({ user }: UserRowProps) => {
             <Avatar src={user.avatar} />
         </TableCell>
         <TableCell>{user.id}</TableCell>
-        <TableCell>{user.name}</TableCell>
-        <TableCell>{user.role}</TableCell>
+        <TableCell>{user.firstName + " " + user.lastName}</TableCell>
         <TableCell>{user.email}</TableCell>
       </TableRow>
     )        

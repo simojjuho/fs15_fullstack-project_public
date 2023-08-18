@@ -17,7 +17,7 @@ export const getAllCategories = createAsyncThunk(
     'getAllCategories',
     async () => {
         try {
-            const { data } = await axios.get<Category[]>('https://api.escuelajs.co/api/v1/categories')
+            const { data } = await axios.get<Category[]>('http://localhost:5093/api/v1/productcategorys')
             return data
         } catch (e) {
             const error = e as AxiosError

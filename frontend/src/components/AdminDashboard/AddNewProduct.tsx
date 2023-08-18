@@ -56,9 +56,8 @@ const AddNewProduct = ({isVisible, setVisible}: AddNewProductProps) => {
         const newProductData: NewProductData = {
             title: data.title,
             price: data.price,
-            categoryId: data.category,
+            productCategoryId: data.category.toString(),
             description: data.description,
-            images: locations
         }
         dispatch(createProduct(newProductData))
     }

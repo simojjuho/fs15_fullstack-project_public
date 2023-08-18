@@ -18,6 +18,7 @@ public class ProductRepository : BaseRepository<Product>
     public override List<Product> GetAll(QueryOptions queryOptions)
     {
         var items = _dbSet
+            .AsNoTracking()
             .Where(e => e.Title.ToLower().Contains(queryOptions.Filter.ToLower()))
             .OrderBy(e => e.Title)
             .Include(product => product.ProductCategory);
@@ -36,6 +37,7 @@ public class ProductRepository : BaseRepository<Product>
     public override Product GetOne(Guid id)
     {
         var entity = _dbSet
+            .AsNoTracking()
             .Include(e => e.ProductCategory)
             .FirstOrDefault(e => e.Id == id);
         if (entity is null)

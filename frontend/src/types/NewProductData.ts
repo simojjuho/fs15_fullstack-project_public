@@ -1,9 +1,8 @@
 interface NewProductData {
-    title: string
-    price: number
-    categoryId: number
-    description: string
-    images: string[]
-}
+    title: string,
+    price: number,
+    description: string,
+    productCategoryId: string
+  }
 
 export default NewProductData

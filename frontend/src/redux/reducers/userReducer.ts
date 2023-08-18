@@ -22,7 +22,7 @@ export const getAllUsers = createAsyncThunk(
     'getAllUsers',
     async () => {
         try {
-            const { data } = await axios.get<User[]>('https://api.escuelajs.co/api/v1/users')
+            const { data } = await axios.get<User[]>('http://localhost:5093/api/v1/users')
             return data
         } catch (e) {
             const error = e as AxiosError
@@ -34,7 +34,7 @@ export const registerUser = createAsyncThunk(
     'registerUser',
     async (newUser: NewUser) => {
         try {
-            const { data } = await axios.post<User>('https://api.escuelajs.co/api/v1/users/',  newUser)
+            const { data } = await axios.post<User>('http://localhost:5093/api/v1/users/',  newUser)
             return data
         } catch (e) {
             const error = e as AxiosError
@@ -46,7 +46,7 @@ export const authenticate = createAsyncThunk(
     'getProfile',
     async (access_token: string) => {
         try {
-            const { data } = await axios.get<User>('https://api.escuelajs.co/api/v1/auth/profile', {
+            const { data } = await axios.get<User>('http://localhost:5093/api/v1/users/profile', {
                 headers: {
                     Authorization: `Bearer ${access_token}`
                 }
@@ -62,7 +62,7 @@ export const loginUser = createAsyncThunk(
     'loginUser',
     async (credentials: LoginCredentials, { dispatch }) => {
         try {
-            const { data } = await axios.post<{access_token: string, refresh_token: string}>('https://api.escuelajs.co/api/v1/auth/login', credentials)
+            const { data } = await axios.post<{access_token: string, refresh_token: string}>('http://localhost:5093/api/v1/auth', credentials)
             window.localStorage.setItem('token', data.access_token)
             const authentication = await dispatch(authenticate(data.access_token))
             return authentication.payload as User
