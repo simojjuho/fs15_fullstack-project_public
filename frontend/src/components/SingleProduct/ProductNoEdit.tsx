@@ -8,7 +8,7 @@ interface ProductsNoEditProps {
 const ProductsNoEdit = ({ product }: ProductsNoEditProps) => {
     return (
         <Box>
-            <ImageList sx={{ width: 500 }} cols={3} rowHeight={164}>
+            {/* <ImageList sx={{ width: 500 }} cols={3} rowHeight={164}>
               {product.images.map((item, index) => (
                 <ImageListItem key={index}>
                   <img
@@ -18,12 +18,12 @@ const ProductsNoEdit = ({ product }: ProductsNoEditProps) => {
                   />
                 </ImageListItem>
               ))}
-            </ImageList>
+            </ImageList> */}
             <List sx={{
               maxWidth: 500
             }}>
               <ListItem>Price: {product.price} €</ListItem>
-              <ListItem>Category: {product.category.name}</ListItem>
+              <ListItem>Category: {product.category.title}</ListItem>
               <ListItem>{product.description}</ListItem>
             </List>
         </Box>

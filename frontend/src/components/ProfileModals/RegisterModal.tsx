@@ -20,7 +20,8 @@ const RegisterModal = () => {
     const fileInput = useFileInput()
     const { handleSubmit, control, formState: { errors }, reset } = useForm<RegistrationFormData>({
         defaultValues: {
-            name: '',
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
             repeat: '',
@@ -40,7 +41,8 @@ const RegisterModal = () => {
         }
         const location = await fileUploadService(images)
         const newUser: NewUser = {
-            name: data.name,
+            firstName: data.firstName,
+            lastName: data.lastName,
             email: data.email,
             password: data.password,
             avatar: location[0]
@@ -76,15 +78,28 @@ const RegisterModal = () => {
                 : null}
             <DialogContent className='modalForm'  sx={{ display: 'flex', flexDirection: 'column', gap: 1}}>
                 <Controller 
-                    name="name"
+                    name="firstName"
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => 
                         <TextField
                             { ...field }
-                            placeholder='Your email address'
-                            label={errors.name?.message ? errors.name?.message : 'Name'} 
-                            color={ errors.name?.message ? 'warning' : 'secondary' }
+                            placeholder='Your first name'
+                            label={errors.firstName?.message ? errors.firstName?.message : 'Name'} 
+                            color={ errors.firstName?.message ? 'warning' : 'secondary' }
+                            className='formInput'
+                        />}           
+                />
+                <Controller 
+                    name="lastName"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => 
+                        <TextField
+                            { ...field }
+                            placeholder='Your last name'
+                            label={errors.lastName?.message ? errors.lastName?.message : 'Name'} 
+                            color={ errors.lastName?.message ? 'warning' : 'secondary' }
                             className='formInput'
                         />}           
                 />

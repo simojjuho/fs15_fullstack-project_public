@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
-import { Avatar, Icon, TableCell, TableRow } from '@mui/material'
+import { Avatar, TableCell, TableRow } from '@mui/material'
 
-import User from '../../types/User'
+import UserGet from '../../types/UserGet'
 
 interface UserRowProps {
-    user: User
+    user: UserGet
 }
 const UserRow = ({ user }: UserRowProps) => {
   const child = useMemo(() => {

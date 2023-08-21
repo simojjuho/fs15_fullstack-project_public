@@ -20,7 +20,7 @@ const ProductOnGrid = ({product}: ProductOnGridProps) => {
                 textDecoration: 'none'
             }} component={RouterLink} to={`/products/${product.id}`}>
                 <Box sx={{
-                    background: `url(${product.images[0]}) center `,
+                    //background: `url(${product.images[0]}) center `,
                     height: '100px'
                 }}></Box>    
                 <Typography color={'secondary.dark'} variant='h3'>

@@ -1,14 +1,12 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using WebShopBackend.Business;
 using WebShopBackend.Business.Services;
 using WebShopBackend.Business.Abstractions;
-using WebShopBackend.Business.DTOs;
 using WebShopBackend.Business.DTOs.AddressDto;
 using WebShopBackend.Business.DTOs.OrderDto;
 using WebShopBackend.Business.DTOs.ProductCategoryDto;
@@ -23,22 +21,33 @@ using WebShopBackend.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy  =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 // Database:
 builder
-    .Services.AddDbContext<DatabaseContext>();
+    .Services.AddDbContext<DatabaseContext>(ServiceLifetime.Transient);
 
 // Add services to the container.
 builder
     .Services.AddControllers();
 
 // Repositories:
-builder.Services
-    .AddScoped<IBaseRepository<Product>, ProductRepository>()
-    .AddScoped<IUserRepository, UserRepository>()
-    .AddScoped<IBaseRepository<ProductCategory>, ProductCategoryRepository>()
-    .AddScoped<IBaseRepository<Order>, OrderRepository>()
-    .AddScoped<IOrderProductRepository, OrderProductRepository>()
-    .AddScoped<IBaseRepository<Address>, AddressRepository>();
+builder.Services.AddTransient<IBaseRepository<Product>, ProductRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IBaseRepository<ProductCategory>, ProductCategoryRepository>();
+builder.Services.AddTransient<IBaseRepository<Order>, OrderRepository>();
+builder.Services.AddTransient<IOrderProductRepository, OrderProductRepository>();
+builder.Services.AddTransient<IBaseRepository<Address>, AddressRepository>();
 
 
 // Add services:
@@ -109,6 +118,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseMiddleware<ErrorHandler>();
+
+app.UseCors();
 
 app.UseAuthentication();
 

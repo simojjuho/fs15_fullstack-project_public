@@ -1,13 +1,11 @@
 import Category from "./Category"
 
 interface Product {
-    id: number
+    id: string
     title: string
     price: number
     description: string
-    images: string[] 
-    creationAt: string
-    updateAt?: string
+    inventory: number,
     category: Category
 }
 

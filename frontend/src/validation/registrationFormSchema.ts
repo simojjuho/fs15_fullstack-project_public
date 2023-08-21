@@ -1,7 +1,11 @@
 import * as yup from "yup";
 
 const registrationFormSchema = yup.object({
-    name: yup
+    firstName: yup
+        .string()
+        .required()
+        .min(2, 'Name must be at least 2 letters long'),
+        lastName: yup
         .string()
         .required()
         .min(2, 'Name must be at least 2 letters long'),

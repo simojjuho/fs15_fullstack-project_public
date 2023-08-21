@@ -25,10 +25,10 @@ const ProductsPage = () => {
     }
   }, [page])
   const { categories } = useAppSelector(state => state.categoryReducer)
-  const categoryList = categories.map(item => item.name)
+  const categoryList = categories.map(item => item.title)
   categoryList.push('Show all')
   const handleCategoryClck = (item: string) => setCategory(item)
-  const productsOfCategory = products.filter(item => category === 'Show all' ? item : item.category.name === category ? item : null)
+  const productsOfCategory = products.filter(item => category === 'Show all' ? item : item.category.title === category ? item : null)
   const filterFunc = (filter: string, products: Product[]): Product[] => {
     return products.filter(item => item.title.toLowerCase().includes(filter.toLowerCase()))
   }

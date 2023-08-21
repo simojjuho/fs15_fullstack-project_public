@@ -2,13 +2,20 @@ import { useNavigate } from 'react-router-dom'
 import useAppSelector from '../hooks/useAppSelector'
 import { Box, Container, Typography } from '@mui/material'
 
+import { getAllUsers } from '../redux/reducers/userReducer'
 import UserList from '../components/AdminDashboard/UserList'
 import ProductsListDashboard from '../components/AdminDashboard/ProductsListDashboard'
+import { useEffect } from 'react'
+import useAppDispatch from '../hooks/useAppDispatch'
 
 const AdminPage = () => {
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(getAllUsers())
+    }, [])
     const user = useAppSelector(state => state.userReducer.user)
     const navigate = useNavigate()
-    if (!user || user.role === 'customer') {
+    if (!user) {
         navigate('/')
     }
     return (

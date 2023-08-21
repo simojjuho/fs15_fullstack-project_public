@@ -12,17 +12,17 @@ import AddInCart from '../components/AddInCart'
 import ProductsNoEdit from '../components/SingleProduct/ProductNoEdit'
 import ProductEdit from '../components/SingleProduct/ProductEdit'
 import useAppDispatch from '../hooks/useAppDispatch'
+import isAdmin from '../utils/isAdmin'
 
 const SingleProductPage = () => {
   const [product, setPrduct] = useState<Product | null>(null)
   const user = useAppSelector(state => state.userReducer.user)
   const [isEdit, setEdit] = useState(false)
   const {isEditSuccess} = useAppSelector(state => state.productsReducer)
-  const dispatch = useAppDispatch()
   const id = useParams().id
   useEffect(() => {
     const fetchProduct = async () => {
-      const { data } = await axios.get<Product>(`https://api.escuelajs.co/api/v1/products/${id}`)
+      const { data } = await axios.get<Product>(`http://localhost:5093/api/v1/products/${id}`)
       setPrduct(data)
     }
     fetchProduct()
@@ -44,7 +44,7 @@ const SingleProductPage = () => {
           {isEdit ? <ProductEdit product={product} setEdit={setEdit}/> : <ProductsNoEdit product={product}/>}
           {!isEdit && <Box sx={{ alignSelf: 'end'}}>
             <AddInCart product={product}/>
-            {user?.role === 'admin' && <Tooltip title='Edit the product'>
+            {isAdmin() && <Tooltip title='Edit the product'>
               <IconButton onClick={handleEditClick}>
                 <EditIcon />
               </IconButton>

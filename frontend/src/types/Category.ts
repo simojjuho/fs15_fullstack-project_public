@@ -1,7 +1,7 @@
 interface Category {
-    id: number
-    name: string
-    url: string
+    id: string,
+    title: string,
+    description: string
 }
 
 export default Category

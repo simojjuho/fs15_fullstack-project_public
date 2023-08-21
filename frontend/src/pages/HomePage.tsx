@@ -11,6 +11,7 @@ import RegisterModal from '../components/ProfileModals/RegisterModal';
 import { authenticate, getAllUsers } from '../redux/reducers/userReducer';
 import useAppSelector from '../hooks/useAppSelector';
 import { getAllCategories } from '../redux/reducers/categoryReducer';
+import jwtDecode from 'jwt-decode';
 
 const HomePage = () => {
   const dispatch = useAppDispatch()
@@ -22,11 +23,7 @@ const HomePage = () => {
   useEffect(() => {
     if(!user) {
       const token = window.localStorage.getItem('token')
-      if(token) {
-        dispatch(authenticate(token))
-      }
     }
-    dispatch(getAllUsers())
   },[dispatch, user])
   return (
     <Box sx={{position: 'relative',minHeight: '100vh', backgroundColor: 'info.main' }}>

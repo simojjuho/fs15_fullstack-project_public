@@ -1,10 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios, { AxiosError } from 'axios'
+import Category from '../../types/Category'
 
-interface Category {
-    id: number
-    name: string
-}
 const initialState: {
     categories: Category[]
     error: string
