@@ -45,7 +45,7 @@ const RegisterModal = () => {
             lastName: data.lastName,
             email: data.email,
             password: data.password,
-            avatar: location[0]
+            avatar: "url.com"
         }
         dispatch(registerUser(newUser))
         console.log(newUser)
@@ -56,18 +56,18 @@ const RegisterModal = () => {
     const handleClose = () => {
         dispatch(setRegistrationVisibility())
     }
-    const iterateFileList = () => {
-        if (fileInput.file) {
+   /*  const iterateFileList = () => {
+        i/* f (fileInput.file) {
             let  fileNames : {name: string, size: number}[] = []
             for (let i = 0; i < fileInput.file.length; i++) {
                 fileNames.push({name: fileInput.file[i].name, size: fileInput.file[i].size})
             }
             return fileNames
-        }
-    }
-    const handleRemoveClick = () => {
+        } */
+    //}
+/*     const handleRemoveClick = () => {
         fileInput.setFile(undefined)
-    }
+    } */
     return (
         <Dialog open={isOpen} onClose={handleClose} maxWidth='sm'>
             <DialogTitle>Sign up</DialogTitle>
@@ -85,7 +85,7 @@ const RegisterModal = () => {
                         <TextField
                             { ...field }
                             placeholder='Your first name'
-                            label={errors.firstName?.message ? errors.firstName?.message : 'Name'} 
+                            label={errors.firstName?.message ? errors.firstName?.message : 'Frst name'} 
                             color={ errors.firstName?.message ? 'warning' : 'secondary' }
                             className='formInput'
                         />}           
@@ -98,7 +98,7 @@ const RegisterModal = () => {
                         <TextField
                             { ...field }
                             placeholder='Your last name'
-                            label={errors.lastName?.message ? errors.lastName?.message : 'Name'} 
+                            label={errors.lastName?.message ? errors.lastName?.message : 'Last name'} 
                             color={ errors.lastName?.message ? 'warning' : 'secondary' }
                             className='formInput'
                         />}           
@@ -148,7 +148,7 @@ const RegisterModal = () => {
                             className='formInput'
                         />}           
                 /> 
-                {iterateFileList() &&<ul>
+                {/* {iterateFileList() &&<ul>
                 File to upload
                 { iterateFileList()?.map(item =>
                     <li key={item.size}>
@@ -168,7 +168,7 @@ const RegisterModal = () => {
                         hidden
                         onChange={e => fileInput.onChange(e)}
                     />
-                </Button>
+                </Button> */}
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleSubmit(onSubmit)} color='secondary' variant='outlined'>Sign up</Button>

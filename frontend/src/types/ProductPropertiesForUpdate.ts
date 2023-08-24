@@ -1,12 +1,19 @@
 interface ProductPropertiesForUpdate {
-  id: number,
+  id: string,
   data: {
-    title?: string
-    price?: number,
-    description?: string
-    category?: number
+    title: string
+    price: number,
+    description: string
+    categoryId: string,
+    inventory: number
   }
-  images?: {file: File}[]
 }
 
 export default ProductPropertiesForUpdate
+
+/*     public string Title { get; set; }
+    public decimal Price { get; set; }
+    public int Inventory { get; set; }
+    public string Description { get; set; }
+    [Ignore]
+    public Guid ProductCategoryId { get; set; } */

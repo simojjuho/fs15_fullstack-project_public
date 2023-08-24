@@ -6,6 +6,9 @@ namespace WebShopBackend.Infrastructure.Database
 {
     public class TimeStampInterceptor : SaveChangesInterceptor
     {
+        public TimeStampInterceptor()
+        {
+        }
         public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
         {
             var addedEntries = eventData.Context?.ChangeTracker.Entries()

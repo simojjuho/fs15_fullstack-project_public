@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using Npgsql;
 using WebShopBackend.Core.Entities;
@@ -9,6 +10,7 @@ namespace WebShopBackend.Infrastructure.Database;
 public class DatabaseContext : DbContext
 {
     private readonly IConfiguration _configuration;
+    private IEnumerable<IInterceptor> _interceptors;
     public DbSet<User> Users { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
@@ -16,18 +18,18 @@ public class DatabaseContext : DbContext
     public DbSet<OrderProduct> OrderProducts { get; set; }
     public DbSet<ProductCategory> ProductCategory { get; set; }
 
-    public DatabaseContext(DbContextOptions options, IConfiguration configuration) : base(options)
+    public DatabaseContext(DbContextOptions options, IConfiguration configuration, IEnumerable<IInterceptor> interceptors) : base(options)
     {
         _configuration = configuration;
+        _interceptors = interceptors;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("DefaultConnection"));
-        builder.MapEnum<UserRole>();
-        builder.MapEnum<OrderStatus>();
-        optionsBuilder.AddInterceptors(new TimeStampInterceptor());
-        optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
+        if (_interceptors.Any())
+        {
+            optionsBuilder.AddInterceptors(_interceptors);
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,8 +38,6 @@ public class DatabaseContext : DbContext
             .ToTable(t => t.HasCheckConstraint("products_inventory_unsigned", "Inventory >= 0 AND Inventory < 65536"));
         modelBuilder.Entity<Product>()
             .ToTable(t => t.HasCheckConstraint("products_price_unsigned", "Price >= 0"));
-        modelBuilder.HasPostgresEnum<UserRole>();
-        modelBuilder.HasPostgresEnum<OrderStatus>();
         modelBuilder.Entity<User>()
             .Property(e => e.Avatar)
             .HasDefaultValue("https://gravatar.com/avatar/64a18a4cd914f298e737bde27cb24c29?s=400&d=mp&r=x");
@@ -51,6 +51,14 @@ public class DatabaseContext : DbContext
                 }
             }
         }
+        modelBuilder
+            .Entity<User>()
+            .Property(e => e.UserRole)
+            .HasConversion<string>();
+        modelBuilder
+            .Entity<Order>()
+            .Property(e => e.OrderStatus)
+            .HasConversion<string>();
 
         modelBuilder.Entity<User>()
             .HasAlternateKey(e => e.Email)

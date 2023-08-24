@@ -10,7 +10,6 @@ namespace WebShopBackend.Infrastructure.Repositories;
 
 public class ProductRepository : BaseRepository<Product>
 {
-    
     public ProductRepository(DatabaseContext context) : base(context)
     {
     }
@@ -18,7 +17,7 @@ public class ProductRepository : BaseRepository<Product>
     public override List<Product> GetAll(QueryOptions queryOptions)
     {
         var items = _dbSet
-            .AsNoTracking()
+            .AsNoTracking().Include(e => e.ProductCategory)
             .Where(e => e.Title.ToLower().Contains(queryOptions.Filter.ToLower()))
             .OrderBy(e => e.Title)
             .Include(product => product.ProductCategory);

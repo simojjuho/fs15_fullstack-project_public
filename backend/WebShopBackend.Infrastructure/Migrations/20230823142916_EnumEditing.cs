@@ -1,21 +1,16 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using WebShopBackend.Core.Enums;
 
 #nullable disable
 
 namespace WebShopBackend.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FixIdGeneration : Migration
+    public partial class EnumEditing : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:order_status", "received,shipped,cancelled")
-                .Annotation("Npgsql:Enum:user_role", "customer,admin");
-
             migrationBuilder.CreateTable(
                 name: "product_category",
                 columns: table => new
@@ -42,7 +37,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                     last_name = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false),
                     avatar = table.Column<string>(type: "text", nullable: false, defaultValue: "https://gravatar.com/avatar/64a18a4cd914f298e737bde27cb24c29?s=400&d=mp&r=x"),
-                    user_role = table.Column<UserRole>(type: "user_role", nullable: false),
+                    user_role = table.Column<string>(type: "text", nullable: false),
                     password_hash = table.Column<string>(type: "text", nullable: false),
                     salt = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
@@ -58,7 +53,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     title = table.Column<string>(type: "text", nullable: false),
-                    price = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
+                    price = table.Column<decimal>(type: "numeric", nullable: false),
                     inventory = table.Column<int>(type: "integer", nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
                     product_category_id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -68,6 +63,8 @@ namespace WebShopBackend.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_products", x => x.id);
+                    table.CheckConstraint("products_inventory_unsigned", "Inventory >= 0 AND Inventory < 65536");
+                    table.CheckConstraint("products_price_unsigned", "Price >= 0");
                     table.ForeignKey(
                         name: "fk_products_product_category_product_category_id",
                         column: x => x.product_category_id,
@@ -136,7 +133,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                     updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     address_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    order_status = table.Column<OrderStatus>(type: "order_status", nullable: false)
+                    order_status = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

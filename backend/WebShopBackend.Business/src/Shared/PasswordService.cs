@@ -9,13 +9,13 @@ public class PasswordService
     {
         var hmac = new HMACSHA256();
         salt = hmac.Key;
-        hashedPassword = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)).ToString();
+        hashedPassword = Encoding.UTF8.GetString(hmac.ComputeHash(Encoding.UTF8.GetBytes(password)));
     }
 
     public static bool VerifyPassword(string passwordFromLogin, string passwordHash, byte[] salt)
     {
         var hmac = new HMACSHA256(salt);
-        var passwordOrig = hmac.ComputeHash(Encoding.UTF8.GetBytes(passwordFromLogin)).ToString();
+        var passwordOrig = Encoding.UTF8.GetString(hmac.ComputeHash(Encoding.UTF8.GetBytes(passwordFromLogin)));
         return passwordHash == passwordOrig;
     }
 }

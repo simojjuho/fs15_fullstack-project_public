@@ -23,7 +23,7 @@ const ProductsNoEdit = ({ product }: ProductsNoEditProps) => {
               maxWidth: 500
             }}>
               <ListItem>Price: {product.price} €</ListItem>
-              <ListItem>Category: {product.category.title}</ListItem>
+              <ListItem>Category: {product.productCategory.title}</ListItem>
               <ListItem>{product.description}</ListItem>
             </List>
         </Box>

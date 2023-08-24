@@ -28,13 +28,13 @@ const shoppingCartSlice = createSlice({
             }
             
         },
-        removeProduct: (state, action: PayloadAction<number>) => {
+        removeProduct: (state, action: PayloadAction<string>) => {
             return {
                 ...state,
                 productsInCart: state.productsInCart.filter(entry => entry.product.id !== action.payload)
             }
         },
-        updateProduct: (state, action: PayloadAction<{id: number, amount: number}>) => {
+        updateProduct: (state, action: PayloadAction<{id: string, amount: number}>) => {
             const item = state.productsInCart.find(entry => entry.product.id === action.payload.id)
             if(item) {
                 item.amount = action.payload.amount

@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using WebShopBackend.Core.Enums;
 using WebShopBackend.Infrastructure.Database;
 
 #nullable disable
@@ -13,8 +12,8 @@ using WebShopBackend.Infrastructure.Database;
 namespace WebShopBackend.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230817214513_NotZeroValsDecima")]
-    partial class NotZeroValsDecima
+    [Migration("20230823143036_EnumEditing2")]
+    partial class EnumEditing2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,8 +23,6 @@ namespace WebShopBackend.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "order_status", new[] { "received", "shipped", "cancelled" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "user_role", new[] { "customer", "admin" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("WebShopBackend.Core.Entities.Address", b =>
@@ -86,8 +83,9 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<OrderStatus>("OrderStatus")
-                        .HasColumnType("order_status")
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("order_status");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
@@ -162,8 +160,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnName("inventory");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
+                        .HasColumnType("numeric")
                         .HasColumnName("price");
 
                     b.Property<Guid>("ProductCategoryId")
@@ -185,7 +182,12 @@ namespace WebShopBackend.Infrastructure.Migrations
                     b.HasIndex("ProductCategoryId")
                         .HasDatabaseName("ix_products_product_category_id");
 
-                    b.ToTable("products", (string)null);
+                    b.ToTable("products", null, t =>
+                        {
+                            t.HasCheckConstraint("products_inventory_unsigned", "Inventory >= 0 AND Inventory < 65536");
+
+                            t.HasCheckConstraint("products_price_unsigned", "Price >= 0");
+                        });
                 });
 
             modelBuilder.Entity("WebShopBackend.Core.Entities.ProductCategory", b =>
@@ -306,8 +308,9 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<UserRole>("UserRole")
-                        .HasColumnType("user_role")
+                    b.Property<string>("UserRole")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("user_role");
 
                     b.HasKey("Id")
@@ -322,7 +325,7 @@ namespace WebShopBackend.Infrastructure.Migrations
             modelBuilder.Entity("WebShopBackend.Core.Entities.Address", b =>
                 {
                     b.HasOne("WebShopBackend.Core.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Addresses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -362,7 +365,7 @@ namespace WebShopBackend.Infrastructure.Migrations
                         .HasConstraintName("fk_order_products_orders_order_id");
 
                     b.HasOne("WebShopBackend.Core.Entities.Product", "Product")
-                        .WithMany("OrderProducts")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -411,9 +414,9 @@ namespace WebShopBackend.Infrastructure.Migrations
                     b.Navigation("OrderProducts");
                 });
 
-            modelBuilder.Entity("WebShopBackend.Core.Entities.Product", b =>
+            modelBuilder.Entity("WebShopBackend.Core.Entities.User", b =>
                 {
-                    b.Navigation("OrderProducts");
+                    b.Navigation("Addresses");
                 });
 #pragma warning restore 612, 618
         }

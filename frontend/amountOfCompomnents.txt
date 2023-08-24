@@ -1,0 +1,3 @@
+Amount of components in the project
+      5 Footer
+     53 Typography

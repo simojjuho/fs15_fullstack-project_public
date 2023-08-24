@@ -28,7 +28,10 @@ const ProductsPage = () => {
   const categoryList = categories.map(item => item.title)
   categoryList.push('Show all')
   const handleCategoryClck = (item: string) => setCategory(item)
-  const productsOfCategory = products.filter(item => category === 'Show all' ? item : item.category.title === category ? item : null)
+  const productsOfCategory = products.filter(item => {
+    if(category === 'Show all') return item
+    return item.productCategory.title.toLowerCase() === category.toLowerCase()
+  })
   const filterFunc = (filter: string, products: Product[]): Product[] => {
     return products.filter(item => item.title.toLowerCase().includes(filter.toLowerCase()))
   }
@@ -42,13 +45,13 @@ const ProductsPage = () => {
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value)
   }
-  if(loading) return <Loading />
   const sortByPriceHandler = () => {
     priceSort
     ? dispatch(sortProductsByPrice('asc'))
     : dispatch(sortProductsByPrice('desc')) 
     setPriceSort(state => !state)
   }
+  if(loading) return <Loading />
   return (
     <Container maxWidth='lg' sx={{
       padding: '6em 0',

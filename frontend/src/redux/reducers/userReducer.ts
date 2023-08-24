@@ -22,7 +22,12 @@ export const getAllUsers = createAsyncThunk(
     'getAllUsers',
     async () => {
         try {
-            const { data } = await axios.get<UserGet[]>('http://localhost:5093/api/v1/users')
+            const access_token = window.localStorage.getItem('token')
+            const { data } = await axios.get<UserGet[]>('http://localhost:5093/api/v1/users', {
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                }
+            })
             return data
         } catch (e) {
             const error = e as AxiosError
@@ -62,9 +67,9 @@ export const loginUser = createAsyncThunk(
     'loginUser',
     async (credentials: LoginCredentials, { dispatch }) => {
         try {
-            const { data } = await axios.post<{access_token: string, refresh_token: string}>('http://localhost:5093/api/v1/auth', credentials)
-            window.localStorage.setItem('token', data.access_token)
-            const authentication = await dispatch(authenticate(data.access_token))
+            const { data } = await axios.post<string>('http://localhost:5093/api/v1/auth', credentials)
+            window.localStorage.setItem('token', data)
+            const authentication = await dispatch(authenticate(data))
             return authentication.payload as UserGet
         } catch (e) {
             const error = e as AxiosError
@@ -80,8 +85,8 @@ const userSlice = createSlice({
             state.isSuccess = false
             state.notification = ''
         },
-        logoutUser: (state) => {
-            window.localStorage.clear()
+        logoutUser: () => {
+            window.localStorage.removeItem('token')
             return initialState
         }
      },

@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Button, Dialog, DialogActions, DialogContent, TextField } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, MenuItem, Select, TextField } from "@mui/material"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 
@@ -19,21 +19,21 @@ interface AddNewProductProps {
 const AddNewProduct = ({isVisible, setVisible}: AddNewProductProps) => {
     const handleModalClose = () => setVisible(false)
     const dispatch = useAppDispatch()
+    const categories = useAppSelector(state => state.categoryReducer.categories)
     const { isCreateSuccess, notification} = useAppSelector(state => state.productsReducer)
     const { handleSubmit, control, formState: { errors }, reset } = useForm<ProductCreationData>({
         defaultValues: {
             title: '',
             price: 0,
-            category: 1,
             description: ''
         },
         resolver: yupResolver(productCreationSchema)
     })
-    const fileInput = useFileInput()
+    //const fileInput = useFileInput()
     useEffect(() => {
         reset()
     }, [dispatch, isVisible, reset])
-    const iterateFileList = () => {
+/*     const iterateFileList = () => {
         if (fileInput.file) {
             let  fileNames : {name: string, size: number}[] = []
             for (let i = 0; i < fileInput.file.length; i++) {
@@ -44,19 +44,19 @@ const AddNewProduct = ({isVisible, setVisible}: AddNewProductProps) => {
     }
     const handleRemoveClick = () => {
         fileInput.setFile(undefined)
-    }
+    } */
     const onSubmit = async (data: ProductCreationData) => {
-        const images: {file: File}[] = []
+/*         const images: {file: File}[] = []
         if (fileInput.file) {
             for (let i = 0; i < fileInput.file.length; i++) {
                 images.push({file: fileInput.file[i]})
             }
         }
-        const locations = await fileUploadService(images)
+        const locations = await fileUploadService(images) */
         const newProductData: NewProductData = {
             title: data.title,
             price: data.price,
-            productCategoryId: data.category.toString(),
+            productCategoryId: data.category,
             description: data.description,
         }
         dispatch(createProduct(newProductData))
@@ -97,14 +97,16 @@ const AddNewProduct = ({isVisible, setVisible}: AddNewProductProps) => {
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => 
-                        <TextField
+                        <Select
                             { ...field }
                             placeholder='Category'
-                            type='number'
+                            type='text'
                             label={errors.category?.message ? errors.category?.message : 'Category'} 
                             color={ errors.category?.message ? 'warning' : 'secondary' }
                             className='formInput'
-                        />}           
+                        >
+                            {categories.map(category => <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>)}
+                        </Select>}           
                 />
                 <Controller 
                     name="description"
@@ -122,7 +124,7 @@ const AddNewProduct = ({isVisible, setVisible}: AddNewProductProps) => {
                             className='formInput'
                         />}           
                 />
-                {iterateFileList() &&<ul>
+{/*                 {iterateFileList() &&<ul>
                 Files to upload
                 { iterateFileList()?.map(item =>
                     <li key={item.size}>
@@ -143,7 +145,7 @@ const AddNewProduct = ({isVisible, setVisible}: AddNewProductProps) => {
                         multiple
                         onChange={e => fileInput.onChange(e)}
                     />
-                </Button>
+                </Button> */}
             </DialogContent>
             <DialogActions>
                 <Button variant='outlined' color='secondary' onClick={handleSubmit(onSubmit)}>Add</Button>

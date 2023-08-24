@@ -27,23 +27,26 @@ const ProductEdit = ({ product, setEdit }: ProductEditProps) => {
     const categoryInput = useInput()
     const descriptionInput = useInput()
     const fileInput = useFileInput()
+    const inventoryInput = useInput()
     const handleCancelClick = () => setEdit(state => !state)
     const handleSaveClick = () => {
         const formData: {file: File}[] = []
         const updateProps: ProductPropertiesForUpdate = {
             id: product.id,
-            data: {}
+            data: {
+                title: titleInput.value,
+                price: Number(priceInput.value),
+                description: descriptionInput.value,
+                categoryId: categoryInput.value,
+                inventory: Number(inventoryInput.value)
+            }
         }
-        if (fileInput.file) {
+        /* if (fileInput.file) {
             for (let i = 0; i < fileInput.file.length; i++) {
                 formData.push({file: fileInput.file[i]})
             }
             updateProps.images = formData
-        }
-        if (titleInput.value) updateProps.data.title = titleInput.value
-        if (priceInput.value) updateProps.data.price = Number(priceInput.value)
-        if (categoryInput.value) updateProps.data.category = Number(categoryInput.value)
-        if (descriptionInput.value) updateProps.data.description = descriptionInput.value
+        } */
         dispatch(updateProduct(updateProps))
     }
     const iterateFileList = () => {
@@ -71,7 +74,8 @@ const ProductEdit = ({ product, setEdit }: ProductEditProps) => {
             {productsReducer.notification && !productsReducer.isEditSuccess && <Notification message={productsReducer.notification} severity={'error'} type='product'/>}
             <TextField color='secondary' type='text' {...titleInput} label={'Title'}/>
             <TextField color='secondary' type='number' {...priceInput} label={'Price'}/>
-            <TextField color='secondary' type='number' {...categoryInput} label={'Category'}/>
+            <TextField color='secondary' type='text' {...categoryInput} label={'Category'}/>
+            <TextField color='secondary' type='number' {...inventoryInput} label={'Inventory'}/>
             <TextField
                 multiline
                 rows={4}

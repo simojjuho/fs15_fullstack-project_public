@@ -25,7 +25,7 @@ public class AuthService : IAuthService
         var isAuthenticated = PasswordService.VerifyPassword(credentials.Password, user.PasswordHash, user.Salt);
         if (!isAuthenticated)
         {
-            throw new AuthenticationException();
+            throw CustomException.InvalidCredentials();
         }
 
         return GenerateToken(user);

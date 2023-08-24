@@ -2,10 +2,10 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from 'axios'
 
 import Product from "../../types/Product";
-import ProductWithoutId from "../../types/NewProduct";
 import ProductPropertiesForUpdate from "../../types/ProductPropertiesForUpdate";
 import ProductDataForUpdate from "../../types/ProductDataForUpdate";
 import fileUploadService from "../../utils/fileUploadService";
+import NewProductData from "../../types/NewProductData";
 
 const initialState: {
     loading: boolean,
@@ -34,9 +34,14 @@ export const getAllProducts = createAsyncThunk(
 )
 export const createProduct = createAsyncThunk(
     'createProduct',
-    async (newProduct: ProductWithoutId): Promise<Product | AxiosError> => {
+    async (newProduct: NewProductData): Promise<Product | AxiosError> => {
         try {
-            const result = await axios.post<Product>('http://localhost:5093/api/v1/products', newProduct)
+            const access_token = window.localStorage.getItem('token')
+            const result = await axios.post<Product>('http://localhost:5093/api/v1/products', newProduct, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                }
+            })
             return result.data
         } catch (e) {
             let error = e as AxiosError
@@ -46,9 +51,14 @@ export const createProduct = createAsyncThunk(
 )
 export const removeProduct = createAsyncThunk(
     'removeProduct',
-    async (id: number): Promise<{result: boolean, id: number} | AxiosError> => {
+    async (id: string): Promise<{result: boolean, id: string} | AxiosError> => {
         try {
-            const { data } = await axios.delete(`http://localhost:5093/api/v1/products/${id}`)
+            const access_token = window.localStorage.getItem('token')
+            const { data } = await axios.delete<boolean>(`http://localhost:5093/api/v1/products/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                }
+            })
             return {result: data, id: id}
         } catch (e) {
             let error = e as AxiosError
@@ -61,7 +71,7 @@ export const updateProduct = createAsyncThunk(
     async (newProps: ProductPropertiesForUpdate): Promise<Product | AxiosError> =>  {
         try {
             let dataForUpdate: ProductDataForUpdate
-            if (newProps.images) {
+            /* if (newProps.images) {
                 const fileData = await fileUploadService(newProps.images)
                 console.log([...fileData])
                 dataForUpdate = {
@@ -69,12 +79,17 @@ export const updateProduct = createAsyncThunk(
                     images: [...fileData]
                 }
                 console.log(dataForUpdate)
-            } else {
+            } else { */
                 dataForUpdate = {
                     ...newProps.data
-                }
+                //}
             }     
-            const { data } = await axios.put<Product>(`http://localhost:5093/api/v1/products/${newProps.id}`, dataForUpdate)
+            const access_token = window.localStorage.getItem('token')
+            const { data } = await axios.put<Product>(`http://localhost:5093/api/v1/products/${newProps.id}`, dataForUpdate, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                }
+            })
             return data
         } catch (e) {
             let error = e as AxiosError

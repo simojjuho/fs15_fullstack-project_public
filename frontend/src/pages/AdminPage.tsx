@@ -7,6 +7,7 @@ import UserList from '../components/AdminDashboard/UserList'
 import ProductsListDashboard from '../components/AdminDashboard/ProductsListDashboard'
 import { useEffect } from 'react'
 import useAppDispatch from '../hooks/useAppDispatch'
+import CategoryList from '../components/AdminDashboard/CategoryList'
 
 const AdminPage = () => {
     const dispatch = useAppDispatch()
@@ -27,10 +28,12 @@ const AdminPage = () => {
                 marginTop: '3em'
             }}>
                 {}
-                <Typography sx={{marginBottom: '3em'}} variant='h3'>Add / edit products</Typography>
+                <Typography sx={{margin: '3em'}} variant='h3'>Add / edit products</Typography>
                 <ProductsListDashboard />
-                <Typography variant='h3'>Add / edit users</Typography>
+                <Typography sx={{margin: '3em'}} variant='h3'>Users</Typography>
                 <UserList />
+                <Typography sx={{margin: '3em'}} variant='h3'>Add / edit categories</Typography>
+                <CategoryList />
             </Box>
         </Container>
     )

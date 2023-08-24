@@ -6,7 +6,7 @@ interface Product {
     price: number
     description: string
     inventory: number,
-    category: Category
+    productCategory: Category
 }
 
 export default Product

@@ -5,7 +5,7 @@
 namespace WebShopBackend.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class TryAgainConstraint : Migration
+    public partial class EnumEditing2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

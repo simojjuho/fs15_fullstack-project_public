@@ -21,9 +21,9 @@ const ProductRow = ({ product }: ProductRowProps) => {
     const child = useMemo(() => {
         return (
             <TableRow className='itemRow' onClick={() => navigate(`/products/${product.id}`)}>
-                <TableCell>
+                {/* <TableCell>
                     <Avatar src={product.images[1]} />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>{product.id}</TableCell>
                 <TableCell>{product.title}</TableCell>
                 <TableCell>

@@ -7,6 +7,7 @@ using WebShopBackend.Core.Entities;
 
 namespace WebShopBackend.Controllers.Controllers;
 
+[ApiController]
 public class ProductCategoryController : CrudController<ProductCategory, ProductCategoryGetDto, ProductCategoryCreateDto, ProductCategoryUpdateDto>
 {
     public ProductCategoryController(IBaseService<ProductCategoryGetDto, ProductCategoryCreateDto, ProductCategoryUpdateDto> service) : base(service)
