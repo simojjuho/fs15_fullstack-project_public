@@ -1,5 +1,9 @@
 using System.Security.Claims;
 using System.Text;
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -26,13 +30,15 @@ namespace WebShopBackend.Infrastructure;
 
 public class Program
 {
+    
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        var configBuilder = new ConfigurationBuilder()
-            .AddUserSecrets<Program>();
-        IConfigurationRoot configuration = configBuilder.Build();
+        var configBuilder = new ConfigurationBuilder();
+        configBuilder.AddJsonFile("appsettings.json");
         
+        IConfigurationRoot configuration = configBuilder.Build();
+
         builder.Services.AddCors(options =>
         {
             options.AddDefaultPolicy(
@@ -46,7 +52,7 @@ public class Program
         });
 
         // Database:
-        var dbDataSource = new NpgsqlDataSourceBuilder("Server=fs15-webshop-js.postgres.database.azure.com;Database=fs15-webshop-js;Port=5432;User Id=webshop;Password=Orivesi123;Ssl Mode=VerifyFull;").Build();
+        var dbDataSource = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("ProdConnection")).Build();
         builder.Services.AddDbContext<DatabaseContext>(
             (options) =>
             {

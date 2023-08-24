@@ -20,11 +20,12 @@ const initialState: {
     isCreateSuccess: false,
     products: []
 }
+const baseUrl = "https://fs15-webshop-js.azurewebsites.net/api/v1"
 export const getAllProducts = createAsyncThunk(
     'getAllProducts',
     async () => {
         try {
-            const result = await axios.get<Product[]>('http://localhost:5093/api/v1/products')
+            const result = await axios.get<Product[]>(`${baseUrl}/products`)
             return result.data
         } catch (e) {
             let error = e as AxiosError
@@ -37,7 +38,7 @@ export const createProduct = createAsyncThunk(
     async (newProduct: NewProductData): Promise<Product | AxiosError> => {
         try {
             const access_token = window.localStorage.getItem('token')
-            const result = await axios.post<Product>('http://localhost:5093/api/v1/products', newProduct, {
+            const result = await axios.post<Product>(`${baseUrl}/products`, newProduct, {
                 headers: {
                     Authorization: `Bearer ${access_token}`
                 }
@@ -54,7 +55,7 @@ export const removeProduct = createAsyncThunk(
     async (id: string): Promise<{result: boolean, id: string} | AxiosError> => {
         try {
             const access_token = window.localStorage.getItem('token')
-            const { data } = await axios.delete<boolean>(`http://localhost:5093/api/v1/products/${id}`, {
+            const { data } = await axios.delete<boolean>(`${baseUrl}/products/${id}`, {
                 headers: {
                     Authorization: `Bearer ${access_token}`
                 }
@@ -85,7 +86,7 @@ export const updateProduct = createAsyncThunk(
                 //}
             }     
             const access_token = window.localStorage.getItem('token')
-            const { data } = await axios.put<Product>(`http://localhost:5093/api/v1/products/${newProps.id}`, dataForUpdate, {
+            const { data } = await axios.put<Product>(`${baseUrl}/products/${newProps.id}`, dataForUpdate, {
                 headers: {
                     Authorization: `Bearer ${access_token}`
                 }

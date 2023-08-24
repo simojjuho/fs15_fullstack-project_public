@@ -11,12 +11,12 @@ const initialState: {
     categories: [],
     error: ''
 }
-
+const baseUrl = "https://fs15-webshop-js.azurewebsites.net/api/v1"
 export const getAllCategories = createAsyncThunk(
     'getAllCategories',
     async () => {
         try {
-            const { data } = await axios.get<Category[]>('http://localhost:5093/api/v1/productcategorys')
+            const { data } = await axios.get<Category[]>(`${baseUrl}/productCategorys`)
             return data
         } catch (e) {
             const error = e as AxiosError
@@ -29,7 +29,7 @@ export const createCategory = createAsyncThunk(
     async (newCategory: CategoryCreate): Promise<Category | string> => {
         try {
             const access_token = window.localStorage.getItem('token')
-            const { data } = await axios.post<Category>('http://localhost:5093/api/v1/productcategorys', newCategory, {
+            const { data } = await axios.post<Category>(`${baseUrl}//productCategorys`, newCategory, {
                 headers: {
                     Authorization: `Bearer ${access_token}`
                 }
@@ -46,7 +46,7 @@ export const removeCategory = createAsyncThunk(
     async (id: string) => {
         try {
             const access_token = window.localStorage.getItem('token')
-            const { data } = await axios.post<boolean>('http://localhost:5093/api/v1/productcategorys', id, {
+            const { data } = await axios.get<boolean>(`${baseUrl}//productCategorys/${id}`, {
                 headers: {
                     Authorization: `Bearer: ${access_token}`
                 }

@@ -18,12 +18,13 @@ const initialState: {
     user: null,
     users: []
 }
+const baseUrl = "https://fs15-webshop-js.azurewebsites.net/api/v1"
 export const getAllUsers = createAsyncThunk(
     'getAllUsers',
     async () => {
         try {
             const access_token = window.localStorage.getItem('token')
-            const { data } = await axios.get<UserGet[]>('http://localhost:5093/api/v1/users', {
+            const { data } = await axios.get<UserGet[]>(`${baseUrl}/users`, {
                 headers: {
                     Authorization: `Bearer ${access_token}`
                 }
@@ -39,7 +40,7 @@ export const registerUser = createAsyncThunk(
     'registerUser',
     async (newUser: NewUser) => {
         try {
-            const { data } = await axios.post<UserGet>('http://localhost:5093/api/v1/users/',  newUser)
+            const { data } = await axios.post<UserGet>(`${baseUrl}/users`,  newUser)
             return data
         } catch (e) {
             const error = e as AxiosError
@@ -51,7 +52,7 @@ export const authenticate = createAsyncThunk(
     'getProfile',
     async (access_token: string) => {
         try {
-            const { data } = await axios.get<UserGet>('http://localhost:5093/api/v1/users/profile', {
+            const { data } = await axios.get<UserGet>(`${baseUrl}/users/profile`, {
                 headers: {
                     Authorization: `Bearer ${access_token}`
                 }
@@ -67,7 +68,7 @@ export const loginUser = createAsyncThunk(
     'loginUser',
     async (credentials: LoginCredentials, { dispatch }) => {
         try {
-            const { data } = await axios.post<string>('http://localhost:5093/api/v1/auth', credentials)
+            const { data } = await axios.post<string>(`${baseUrl}/auth`, credentials)
             window.localStorage.setItem('token', data)
             const authentication = await dispatch(authenticate(data))
             return authentication.payload as UserGet
