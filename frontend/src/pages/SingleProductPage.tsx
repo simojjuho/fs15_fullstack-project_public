@@ -22,7 +22,7 @@ const SingleProductPage = () => {
   const id = useParams().id
   useEffect(() => {
     const fetchProduct = async () => {
-      const { data } = await axios.get<Product>(`http://localhost:5093/api/v1/products/${id}`)
+      const { data } = await axios.get<Product>(`https://fs15-webshop-js.azurewebsites.net/api/v1/products/${id}`)
       setPrduct(data)
     }
     fetchProduct()
